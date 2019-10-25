@@ -24,7 +24,7 @@ def index(request):
     sentences = y["data"]
     l = []
     toktok = ToktokTokenizer()
-    sr = stopwords.words('spanish')
+    #sr = stopwords.words('spanish')
     f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
     line = f.readline()
     cnt = 1
@@ -42,7 +42,6 @@ def index(request):
     	token = []
     	tok = toktok.tokenize(sent)
     	for to in tok:
-    		
     		#to = str(to, 'unicode-escape')
     		#str(to, 'utf-8')
     		print(to)
