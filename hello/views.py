@@ -6,6 +6,7 @@ import os
 from nltk import sent_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
+#nltk.data.path.append('./nltk_data/')
 
 
 from django.shortcuts import render
