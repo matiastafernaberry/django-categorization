@@ -3,10 +3,13 @@ import requests
 import nltk
 import json
 import os
+import re 
+
 from nltk import sent_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
-#nltk.data.path.append('./nltk_data/')
+nltk.data.path.append('./nltk_data/')
+from nltk import FreqDist
 
 
 from django.shortcuts import render
@@ -34,7 +37,6 @@ def index(request):
     	#print(line.strip())
     	line = f.readline()
     	line = line.rstrip('\n')
-    	#str(line, 'utf-8')
     	cnt += 1
     	stopwords_list.append(line)
 
@@ -43,17 +45,31 @@ def index(request):
     	token = []
     	tok = toktok.tokenize(sent)
     	for to in tok:
-    		#to = str(to, 'unicode-escape')
-    		#str(to, 'utf-8')
-    		print(to)
-    		if to.lower() not in stopwords_list:
-    			token.append(to.lower())
+    		#print(to)
+    		to = to.lower()
+    		to = to.replace("<br>", "")
+    		to = re.sub('\W+', '', to)
+    		if to not in stopwords_list:
+    			#print(to)
+    			token.append(to)
 
-    	l.append(token)
-    l = str(l)
+    	l.extend(token)
+    
+    l.sort()
+    
+    #l = str(l)
+    text = nltk.Text(str(l))
+    #fdist = FreqDist(l)
+    print("fdist:  ")
+    print("  ----   ")
+    print("  ----   ")
+    #words = list(fdist.keys())
+    #print(words)
+    fdist = str(text)
+    
     	
     #[toktok.tokenize(sent) for sent in sent_tokenize(sentences, language='spanish')]
-    return HttpResponse('<pre>' + l + '</pre>')
+    return HttpResponse('<p>' + str(l) + '</p>')
     #return render(request, "index.html")
 
 

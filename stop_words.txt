@@ -454,6 +454,7 @@ para
 parece
 parte
 partir
+pasa
 pasada
 pasado
 paìs
@@ -477,6 +478,7 @@ podrán
 podría
 podrían
 poner
+ponen
 por
 por qué
 porque
