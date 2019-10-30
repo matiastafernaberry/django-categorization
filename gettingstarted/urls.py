@@ -1,5 +1,5 @@
 from django.urls import path, include
-
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import admin
 
 admin.autodiscover()
@@ -16,7 +16,7 @@ from hello.views import MainClass
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-    path("keywordextract/", MainClass.as_view(), name="index"),
+    path("keywordextract/", csrf_exempt(MainClass.as_view())),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
 ]

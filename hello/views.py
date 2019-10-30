@@ -15,6 +15,7 @@ from nltk import FreqDist
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 
 
@@ -92,6 +93,7 @@ class MainClass(View):
 	    return HttpResponse(dump, content_type='application/json')
 	    
 
+	@csrf_exempt
 	def post(self, request, page):
 	    # return HttpResponse('Hello from Python!')
 	    data = {"url":page}
