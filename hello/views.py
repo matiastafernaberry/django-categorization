@@ -95,8 +95,8 @@ class MainClass(View):
 
 	@csrf_exempt
 	def post(self, request):
-		url = request.POST.get("url", "")
 	    # return HttpResponse('Hello from Python!')
+	    url = request.POST.get("url", "")
 	    data = {"url":url}
 	    url = "http://extracttextpython.appspot.com/api/"
 	    r = requests.post(url, data=data, allow_redirects=True)
