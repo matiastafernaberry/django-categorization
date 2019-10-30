@@ -34,9 +34,12 @@
     <link href="https://fonts.googleapis.com/css?family=Asap&display=swap" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link link rel=stylesheet href="/css/bootstrap.css" type=text/css>
-    <link href="https://fonts.googleapis.com/css?family=Economica|Kite+One|Open+Sans+Condensed:300|Orbitron" rel="stylesheet"> 
-    <link link rel=stylesheet href="/css/style.css" type=text/css>
+    <link href="https://fonts.googleapis.com/css?family=Economica|Kite+One|Open+Sans+Condensed:300|Orbitron" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> 
     <link link rel=stylesheet href="/css/hover.css" type=text/css>
 
    <base href="/" target="_self">
@@ -44,7 +47,7 @@
 <!-- Navigation -->
 <body>     
     <div id="page" class="hfeed site">
-        {% include "templates/menu.html" %}
+        {% include "menu.html" %}
         {% block body %}
 
         {% endblock %}

@@ -25,10 +25,6 @@ from django.conf import settings
 # Create your views here.
 class MainClass(View):
 	"""docstring for MainClass"""
-	# def __init__(self, arg):
-	# 	super(MainClass, self).__init__()
-	# 	self.arg = arg
-
 	def get(self, request):
 	    # return HttpResponse('Hello from Python!')
 	    data = {"url":"https://findesemana.ladiaria.com.uy/articulo/2019/10/una-mirada-desde-las-calles-de-santiago-de-chile/"}
