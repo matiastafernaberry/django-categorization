@@ -104,7 +104,7 @@ class MainClass(View):
 	    sentences = y["data"]
 	    l = []
 	    toktok = ToktokTokenizer()
-	    #sr = stopwords.words('spanish')
+	    # sr = stopwords.words('spanish')
 	    f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
 	    line = f.readline()
 	    cnt = 1
@@ -129,11 +129,11 @@ class MainClass(View):
 	    l.sort()
 	    unique_list = list(set(l))
 	    
-	    #print(str(unique_list))
+	    # print(str(unique_list))
 	    temp3 = []
 	    for x in l: 
 	    	if l.count(x) > 1: temp3.append(x)
-	    #print(set(temp3))
+	    # print(set(temp3))
 	    temp3 = set(temp3)   
 	    obj = {
 	      'data': str(list(temp3)), 
