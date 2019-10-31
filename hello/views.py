@@ -19,14 +19,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 
 
-from .models import Greeting
+#from .models import Greeting
 from django.conf import settings
 
 # Create your views here.
 class MainClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
-	    # return HttpResponse('Hello from Python!')
+	    # return 
 	    data = {"url":"https://findesemana.ladiaria.com.uy/articulo/2019/10/una-mirada-desde-las-calles-de-santiago-de-chile/"}
 	    url = "http://extracttextpython.appspot.com/api/"
 	    r = requests.post(url, data=data, allow_redirects=True)
@@ -34,7 +34,6 @@ class MainClass(View):
 	    sentences = y["data"]
 	    l = []
 	    toktok = ToktokTokenizer()
-	    #sr = stopwords.words('spanish')
 	    f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
 	    line = f.readline()
 	    cnt = 1
@@ -57,29 +56,11 @@ class MainClass(View):
 	    	l.extend(token)
 	    
 	    l.sort()
-	    #print("fdist4")
 	    unique_list = list(set(l))
-	    
-	    #print(str(unique_list))
 	    temp3 = []
 	    for x in l: 
 	    	if l.count(x) > 1: temp3.append(x)
-	    #print(set(temp3))
 	    temp3 = set(temp3)
-	    #for i in l:
-	    #l = str(l)
-	    #text = nltk.Text(str(l))
-	    #fdist = FreqDist(l)
-	    #print("fdist:  ")
-	    #print("  ----   ")
-	    #print("  ----   ")
-	    #words = list(fdist.keys())
-	    #print(fdist)
-	    #fdist = str(text)
-	    #words = list(fdist.keys())
-	    #print(words)
-	    #print(fdist['derecho'])
-	    #print("  ------end--------  ")
 	    #[toktok.tokenize(sent) for sent in sent_tokenize(sentences, language='spanish')]
 	    #request.response.headers['Content-Type'] = 'application/json'   
 	    obj = {
@@ -91,7 +72,52 @@ class MainClass(View):
 
 	@csrf_exempt
 	def post(self, request):
-	    # return HttpResponse('Hello from Python!')
+	    # return keyword
+	    texto_input = request.POST.get("texto", "")
+	    
+	    sentences = texto_input
+	    l = []
+	    toktok = ToktokTokenizer()
+	    f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
+	    line = f.readline()
+	    cnt = 1
+	    stopwords_list = []
+	    while line:
+	    	line = f.readline()
+	    	line = line.rstrip('\n')
+	    	cnt += 1
+	    	stopwords_list.append(line)
+
+	    for sent in sent_tokenize(sentences, language='spanish'):
+	    	token = []
+	    	tok = toktok.tokenize(sent)
+	    	for to in tok:
+	    		to = to.lower()
+	    		to = to.replace("<br>", "")
+	    		to = re.sub('\W+', '', to)
+	    		if to not in stopwords_list:
+	    			token.append(to)
+	    	l.extend(token)
+	    
+	    l.sort()
+	    unique_list = list(set(l))
+	    
+	    temp3 = []
+	    for x in l: 
+	    	if l.count(x) > 1: temp3.append(x)
+	    temp3 = set(temp3)   
+	    obj = {
+	      'data': str(list(temp3)), 
+	    } 
+	    dump = json.dumps(obj)
+	    return HttpResponse(dump, content_type='application/json')
+
+
+class ApiClass(View):
+	"""docstring for ApiClass"""
+	@csrf_exempt
+	def post(self, request):
+	    # return keyword
 	    url = request.POST.get("url", "")
 	    data = {"url":url}
 	    url = "http://extracttextpython.appspot.com/api/"
@@ -125,18 +151,17 @@ class MainClass(View):
 	    l.sort()
 	    unique_list = list(set(l))
 	    
-	    # print(str(unique_list))
 	    temp3 = []
 	    for x in l: 
 	    	if l.count(x) > 1: temp3.append(x)
-	    # print(set(temp3))
 	    temp3 = set(temp3)   
 	    obj = {
 	      'data': str(list(temp3)), 
 	    } 
 	    dump = json.dumps(obj)
 	    return HttpResponse(dump, content_type='application/json')
-
+	
+		
 
 def db(request):
 
