@@ -3,14 +3,13 @@ import requests
 import nltk
 import json
 import os
-import re 
+import re
+import traceback 
 
 from nltk import sent_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 nltk.data.path.append('./nltk_data/')
-from nltk import FreqDist
-
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -30,7 +29,6 @@ class MainClass(View):
 	    # return 
 	    return TemplateResponse(request, 'index.html', {})
 	    
-
 	@csrf_exempt
 	def post(self, request):
 	    # return keyword
@@ -79,12 +77,15 @@ class ApiClass(View):
 	@csrf_exempt
 	def post(self, request):
 	    # return keyword
-	    url = request.POST.get("url", "")
-	    data = {"url":url}
-	    url = "http://extracttextpython.appspot.com/api/"
-	    r = requests.post(url, data=data, allow_redirects=True)
-	    y = json.loads(str(r.text))
-	    sentences = y["data"]
+	    try:
+	    	texto = request.POST.get("text", "")
+	    	print(texto)
+	    except:
+	    	error = traceback.format_exc()
+	    	dump = json.dumps(error)
+	    	return HttpResponse(dump, content_type='application/json')	    
+
+	    sentences = texto
 	    l = []
 	    toktok = ToktokTokenizer()
 	    # sr = stopwords.words('spanish')
