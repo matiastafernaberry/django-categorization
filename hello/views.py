@@ -3,18 +3,18 @@ import requests
 import nltk
 import json
 import os
-import re 
+import re
+import traceback 
 
 from nltk import sent_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 nltk.data.path.append('./nltk_data/')
-from nltk import FreqDist
-
 
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 
@@ -27,49 +27,8 @@ class MainClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
 	    # return 
-	    data = {"url":"https://findesemana.ladiaria.com.uy/articulo/2019/10/una-mirada-desde-las-calles-de-santiago-de-chile/"}
-	    url = "http://extracttextpython.appspot.com/api/"
-	    r = requests.post(url, data=data, allow_redirects=True)
-	    y = json.loads(str(r.text))
-	    sentences = y["data"]
-	    l = []
-	    toktok = ToktokTokenizer()
-	    f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
-	    line = f.readline()
-	    cnt = 1
-	    stopwords_list = []
-	    while line:
-	    	line = f.readline()
-	    	line = line.rstrip('\n')
-	    	cnt += 1
-	    	stopwords_list.append(line)
-
-	    for sent in sent_tokenize(sentences, language='spanish'):
-	    	token = []
-	    	tok = toktok.tokenize(sent)
-	    	for to in tok:
-	    		to = to.lower()
-	    		to = to.replace("<br>", "")
-	    		to = re.sub('\W+', '', to)
-	    		if to not in stopwords_list:
-	    			token.append(to)
-	    	l.extend(token)
+	    return TemplateResponse(request, 'index.html', {})
 	    
-	    l.sort()
-	    unique_list = list(set(l))
-	    temp3 = []
-	    for x in l: 
-	    	if l.count(x) > 1: temp3.append(x)
-	    temp3 = set(temp3)
-	    #[toktok.tokenize(sent) for sent in sent_tokenize(sentences, language='spanish')]
-	    #request.response.headers['Content-Type'] = 'application/json'   
-	    obj = {
-	      'data': str(list(temp3)), 
-	    } 
-	    dump = json.dumps(obj)
-	    return HttpResponse(dump, content_type='application/json')
-	    
-
 	@csrf_exempt
 	def post(self, request):
 	    # return keyword
@@ -118,12 +77,15 @@ class ApiClass(View):
 	@csrf_exempt
 	def post(self, request):
 	    # return keyword
-	    url = request.POST.get("url", "")
-	    data = {"url":url}
-	    url = "http://extracttextpython.appspot.com/api/"
-	    r = requests.post(url, data=data, allow_redirects=True)
-	    y = json.loads(str(r.text))
-	    sentences = y["data"]
+	    try:
+	    	texto = request.POST.get("text", "")
+	    	print(texto)
+	    except:
+	    	error = traceback.format_exc()
+	    	dump = json.dumps(error)
+	    	return HttpResponse(dump, content_type='application/json')	    
+
+	    sentences = texto
 	    l = []
 	    toktok = ToktokTokenizer()
 	    # sr = stopwords.words('spanish')
