@@ -6,7 +6,7 @@ import os
 import re
 import traceback 
 
-from nltk import sent_tokenize
+from nltk import sent_tokenize, ne_chunk, pos_tag, word_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 nltk.data.path.append('./nltk_data/')
@@ -25,6 +25,16 @@ from django.conf import settings
 # Create your views here.
 class MainClass(View):
 	"""docstring for MainClass"""
+	def extracttext(self, url):
+		data = {"url":url}
+		url = "http://extracttextpython.appspot.com/api/"
+		r = requests.post(url, data=data, allow_redirects=True)
+		return r.content
+
+	def stopWord(text):
+		#
+		pass
+
 	def get(self, request):
 	    # return 
 	    return TemplateResponse(request, 'index.html', {})
@@ -47,6 +57,8 @@ class MainClass(View):
 	    	cnt += 1
 	    	stopwords_list.append(line)
 
+	    ##print(stopwords_list)
+
 	    for sent in sent_tokenize(sentences, language='spanish'):
 	    	token = []
 	    	tok = toktok.tokenize(sent)
@@ -60,6 +72,8 @@ class MainClass(View):
 	    
 	    l.sort()
 	    unique_list = list(set(l))
+
+	    #print(unique_list)
 	    
 	    temp3 = []
 	    for x in l: 
@@ -122,7 +136,34 @@ class ApiClass(View):
 	    } 
 	    dump = json.dumps(obj)
 	    return HttpResponse(dump, content_type='application/json')
-	
+
+
+class TestClass(View):
+	"""docstring for MainClass"""
+	def get(self, request):
+		from nltk.chunk import conlltags2tree, tree2conlltags
+		main = MainClass()
+		url = "https://www.elpais.com.uy/informacion/politica/larranaga-mal-allanamientos-nocturnos-plantea.html"
+		texto = main.extracttext(url)
+		sentences = json.loads(texto)
+		ne_tree = pos_tag(word_tokenize(sentences["data"]), lang='eng')
+		ne_tree_without_nnp = []
+		nnp = False
+		for n in ne_tree:
+			print(n[1])
+			if n[1] == "NNP":
+				if nnp: 
+					nnp = False
+					last_str = ne_tree_without_nnp.pop()
+					ne_tree_without_nnp.append(last_str + " " + n[0])
+				nnp = True
+				ne_tree_without_nnp.append(n[0])
+			else: nnp = False
+
+
+		iob_tagged = tree2conlltags(ne_tree)
+		data = {"data": ne_tree_without_nnp}
+		return TemplateResponse(request, 'test.html', data)
 		
 
 def db(request):
