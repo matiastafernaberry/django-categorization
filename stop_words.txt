@@ -164,6 +164,7 @@ dónde
 e
 ejemplo
 el
+él
 ella
 ellas
 ello
@@ -482,6 +483,7 @@ podrían
 poner
 ponen
 por
+portal
 por qué
 porque
 posible
@@ -526,6 +528,7 @@ realizar
 realizó
 repente
 respecto
+recordar
 s
 sabe
 sabeis

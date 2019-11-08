@@ -144,22 +144,75 @@ class TestClass(View):
 	def get(self, request):
 		from nltk.chunk import conlltags2tree, tree2conlltags
 		main = MainClass()
-		url = "https://www.elpais.com.uy/informacion/politica/larranaga-mal-allanamientos-nocturnos-plantea.html"
+		url = "https://www.montevideo.com.uy/Noticias/Larranaga--El-Partido-Nacional-va-a-declarar-la-emergencia-nacional-en-seguridad--uc735089"
 		texto = main.extracttext(url)
 		sentences = json.loads(texto)
+
+		l = []
+		toktok = ToktokTokenizer()
+		# sr = stopwords.words('spanish')
+		f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
+		line = f.readline()
+		cnt = 1
+		# guardo los stopwords en una lista 
+		stopwords_list = []
+		while line:
+			line = f.readline()
+			line = line.rstrip('\n')
+			cnt += 1
+			stopwords_list.append(line)
+
+		
+		print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,data5")
+		print(sentences["data"])
+
 		ne_tree = pos_tag(word_tokenize(sentences["data"]), lang='eng')
 		ne_tree_without_nnp = []
+		without_nnp = []
+		#iob_tagged = tree2conlltags(ne_tree)
+		#data = {"data": ne_tree}
+		#return TemplateResponse(request, 'test.html', data)
 		nnp = False
 		for n in ne_tree:
-			print(n[1])
+			#print(n[1])
+			token = []
 			if n[1] == "NNP":
 				if nnp: 
 					nnp = False
-					last_str = ne_tree_without_nnp.pop()
-					ne_tree_without_nnp.append(last_str + " " + n[0])
-				nnp = True
-				ne_tree_without_nnp.append(n[0])
+					last_str = without_nnp.pop()
+					
+					str_words = n[0]
+					str_words = str_words.replace("<br>", "")
+
+					str_words = re.sub('\W+', '', str_words)
+					str_words = str_words.replace(">", "")
+					if str_words.lower() not in stopwords_list: 
+						ne_tree_without_nnp.append(last_str + " " + str_words)
+					else: nnp = False
+				else: 
+					without_nnp_str_words = n[0] 
+					without_nnp_str_words = without_nnp_str_words.replace("<br>", "")
+					without_nnp_str_words = re.sub('\W+', '', without_nnp_str_words)
+					without_nnp_str_words = without_nnp_str_words.replace(">", "")
+					if without_nnp_str_words.lower() not in stopwords_list: 
+						if without_nnp_str_words.strip():
+							without_nnp.append(without_nnp_str_words)
+							nnp = True
 			else: nnp = False
+
+
+
+		for sent in sent_tokenize(sentences["data"], language='spanish'):
+			print("ssssssssssssssssssssssssssssssssss")
+			print(sent)
+			token = []
+			tok = toktok.tokenize(sent)
+			for to in tok:
+				to = to.lower()
+				to = to.replace("<br>", "")
+				to = re.sub('\W+', '', to)
+				if to not in stopwords_list: token.append(to)
+			l.extend(token)
 
 
 		iob_tagged = tree2conlltags(ne_tree)
