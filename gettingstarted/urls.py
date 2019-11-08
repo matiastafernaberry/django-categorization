@@ -9,6 +9,7 @@ admin.autodiscover()
 import hello.views
 from hello.views import MainClass, ApiClass, TestClass
 
+
 # To add a new path, first import the app:
 # import blog
 #

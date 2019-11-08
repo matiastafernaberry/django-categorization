@@ -13,4 +13,11 @@ six==1.12.0
 sqlparse==0.3.0
 urllib3==1.25.6
 whitenoise==4.1.4
+<<<<<<< HEAD
+=======
+cymem==2.0.2
+murmurhash==1.0.2
+preshed==2.0.1
+thinc==7.3.0
+>>>>>>> 767a4c00844cb5a7ad2add9543540f5e035c274b
 spacy==2.2.2

@@ -136,7 +136,8 @@ class ApiClass(View):
 	    } 
 	    dump = json.dumps(obj)
 	    return HttpResponse(dump, content_type='application/json')
-
+	
+		
 
 class TestClass(View):
 	"""docstring for MainClass"""
