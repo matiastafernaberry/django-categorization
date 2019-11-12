@@ -104,6 +104,7 @@ creo
 cual
 cuales
 cualquier
+cualquiera
 cuando
 cuanta
 cuantas
@@ -497,6 +498,7 @@ propia
 propias
 propio
 propios
+propuso
 proximo
 próximo
 próximos

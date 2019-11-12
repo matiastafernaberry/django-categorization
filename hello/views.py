@@ -144,9 +144,22 @@ class TestClass(View):
 	def get(self, request):
 		from nltk.chunk import conlltags2tree, tree2conlltags
 		main = MainClass()
-		url = "https://www.montevideo.com.uy/Noticias/Larranaga--El-Partido-Nacional-va-a-declarar-la-emergencia-nacional-en-seguridad--uc735089"
+		url = "https://www.infobae.com/sociedad/2019/11/01/una-mujer-denuncio-que-su-hija-fue-discriminada-y-que-desde-el-colegio-la-acusaron-de-buscar-fama-por-ser-actriz-porno/"
 		texto = main.extracttext(url)
 		sentences = json.loads(texto)
+		sentences = sentences["data"]
+		#sentences = """
+		#	Este jueves 7 de noviembre, La Corte Suprema de Brasil decidió por seis votos contra cinco que la prisión de una persona condenada solamente en segunda instancia es inconstitucional, según informaron diversos medios de prensa brasileños.
+		#	En el marco de la votación, entendieron que se debía modificar la jurisprudencia, los jueces: Marco Aurélio Mello, Rosa Weber, Ricardo Lewandowski, Gilmar Mendes, Celso de Mello, y el presidente del Supremo Tribunal Federal, José António Dias Toffoli.
+		#	Mientras que se pronunciaron en contra: Alexandre de Moraes, Edson Fachin, Carmen Lúcia, Roberto Barroso y Luiz Fux.
+		#	Hasta el momento, una sentencia de prisión debía comenzar a ser cumplida luego de que fuera confirmada por un tribunal de segunda instancia. De acuerdo con la nueva interpretación, la pena debería comenzar a cumplirse cuando el acusado haya agotado todos los recursos legales disponibles.
+		#	A raíz de tal decisión, el ex presidente Lula da Silva podrá ser liberado, junto con casi 5.000 personas que se encuentran privadas de libertad por distintas causas.
+		#	En tal sentido, el equipo de abogados del ex mandatario brasileño aseguró que solicitarán la “liberación inmediata” de Lula, según informó Folha de São Paulo.
+		#	Se estima que Lula podría ser liberado la próxima semana. De todos modos el estudio de su caso continuará.
+		#	Lula da Silva se encuentra en prisión, desde abril del año pasado, en una dependencia policial de la ciudad de Curitiba.
+		#	El ex mandatario ha sido acusado de “corrupción” en el marco de la causa: “tríplex de Guarujá”.
+		#	Había sido condenado a ocho años y diez meses de cárcel, acusado de “corrupción y lavado de dinero por haber recibido un apartamento de parte de la empresa constructora OAS, a cambio de contratos de obra con la petrolera estatal Petrobras”.
+		#"""
 
 		l = []
 		toktok = ToktokTokenizer()
@@ -162,11 +175,8 @@ class TestClass(View):
 			cnt += 1
 			stopwords_list.append(line)
 
-		
-		print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,data5")
-		print(sentences["data"])
 
-		ne_tree = pos_tag(word_tokenize(sentences["data"]), lang='eng')
+		ne_tree = pos_tag(word_tokenize(sentences), lang='eng')
 		ne_tree_without_nnp = []
 		without_nnp = []
 		#iob_tagged = tree2conlltags(ne_tree)
@@ -202,9 +212,9 @@ class TestClass(View):
 
 
 
-		for sent in sent_tokenize(sentences["data"], language='spanish'):
-			print("ssssssssssssssssssssssssssssssssss")
-			print(sent)
+		for sent in sent_tokenize(sentences, language='spanish'):
+			#print("ssssssssssssssssssssssssssssssssss")
+			#print(sent)
 			token = []
 			tok = toktok.tokenize(sent)
 			for to in tok:
@@ -216,7 +226,7 @@ class TestClass(View):
 
 
 		iob_tagged = tree2conlltags(ne_tree)
-		data = {"data": ne_tree_without_nnp}
+		data = {"data": set(ne_tree_without_nnp)}
 		return TemplateResponse(request, 'test.html', data)
 		
 
