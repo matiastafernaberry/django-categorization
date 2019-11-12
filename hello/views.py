@@ -5,6 +5,7 @@ import json
 import os
 import re
 import traceback 
+import six
 
 from nltk import sent_tokenize, ne_chunk, pos_tag, word_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -148,19 +149,9 @@ class TestClass(View):
 		texto = main.extracttext(url)
 		sentences = json.loads(texto)
 		sentences = sentences["data"]
-		#sentences = """
-		#	Este jueves 7 de noviembre, La Corte Suprema de Brasil decidió por seis votos contra cinco que la prisión de una persona condenada solamente en segunda instancia es inconstitucional, según informaron diversos medios de prensa brasileños.
-		#	En el marco de la votación, entendieron que se debía modificar la jurisprudencia, los jueces: Marco Aurélio Mello, Rosa Weber, Ricardo Lewandowski, Gilmar Mendes, Celso de Mello, y el presidente del Supremo Tribunal Federal, José António Dias Toffoli.
-		#	Mientras que se pronunciaron en contra: Alexandre de Moraes, Edson Fachin, Carmen Lúcia, Roberto Barroso y Luiz Fux.
-		#	Hasta el momento, una sentencia de prisión debía comenzar a ser cumplida luego de que fuera confirmada por un tribunal de segunda instancia. De acuerdo con la nueva interpretación, la pena debería comenzar a cumplirse cuando el acusado haya agotado todos los recursos legales disponibles.
-		#	A raíz de tal decisión, el ex presidente Lula da Silva podrá ser liberado, junto con casi 5.000 personas que se encuentran privadas de libertad por distintas causas.
-		#	En tal sentido, el equipo de abogados del ex mandatario brasileño aseguró que solicitarán la “liberación inmediata” de Lula, según informó Folha de São Paulo.
-		#	Se estima que Lula podría ser liberado la próxima semana. De todos modos el estudio de su caso continuará.
-		#	Lula da Silva se encuentra en prisión, desde abril del año pasado, en una dependencia policial de la ciudad de Curitiba.
-		#	El ex mandatario ha sido acusado de “corrupción” en el marco de la causa: “tríplex de Guarujá”.
-		#	Había sido condenado a ocho años y diez meses de cárcel, acusado de “corrupción y lavado de dinero por haber recibido un apartamento de parte de la empresa constructora OAS, a cambio de contratos de obra con la petrolera estatal Petrobras”.
-		#"""
-
+		sentences = """
+		Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and the first to feature the spacesuit’s full-body look.
+		"""
 		l = []
 		toktok = ToktokTokenizer()
 		# sr = stopwords.words('spanish')
@@ -182,39 +173,44 @@ class TestClass(View):
 		#iob_tagged = tree2conlltags(ne_tree)
 		#data = {"data": ne_tree}
 		#return TemplateResponse(request, 'test.html', data)
+		def clean(word):
+			word = word.replace("<br>", "")
+			word = re.sub('\W+', '', word)
+			word = word.replace(">", "")
+			return word
+
 		nnp = False
 		for n in ne_tree:
 			#print(n[1])
 			token = []
-			if n[1] == "NNP":
+			if n[1] in ("NNP", "NN", "NNS"):
 				if nnp: 
+					print("true")
+					print(n[0])
 					nnp = False
 					last_str = without_nnp.pop()
 					
 					str_words = n[0]
-					str_words = str_words.replace("<br>", "")
+					str_words = clean(str_words)
 
-					str_words = re.sub('\W+', '', str_words)
-					str_words = str_words.replace(">", "")
 					if str_words.lower() not in stopwords_list: 
 						ne_tree_without_nnp.append(last_str + " " + str_words)
 					else: nnp = False
 				else: 
-					without_nnp_str_words = n[0] 
-					without_nnp_str_words = without_nnp_str_words.replace("<br>", "")
-					without_nnp_str_words = re.sub('\W+', '', without_nnp_str_words)
-					without_nnp_str_words = without_nnp_str_words.replace(">", "")
+					print("false")
+
+					print(n[0])
+					without_nnp_str_words = n[0]
+					without_nnp_str_words = clean(without_nnp_str_words)
 					if without_nnp_str_words.lower() not in stopwords_list: 
 						if without_nnp_str_words.strip():
 							without_nnp.append(without_nnp_str_words)
+							print(without_nnp)
+
 							nnp = True
 			else: nnp = False
 
-
-
 		for sent in sent_tokenize(sentences, language='spanish'):
-			#print("ssssssssssssssssssssssssssssssssss")
-			#print(sent)
 			token = []
 			tok = toktok.tokenize(sent)
 			for to in tok:
@@ -224,11 +220,40 @@ class TestClass(View):
 				if to not in stopwords_list: token.append(to)
 			l.extend(token)
 
-
 		iob_tagged = tree2conlltags(ne_tree)
-		data = {"data": set(ne_tree_without_nnp)}
+		data = {"data": set(ne_tree_without_nnp)} # without_nnp, ne_tree_without_nnp
 		return TemplateResponse(request, 'test.html', data)
 		
+
+class RakeTest(View):
+	def get(self, request):
+		import RAKE
+		stop_dir = "stop_words.txt"
+		rake_object = RAKE.Rake(stop_dir)
+		text = """El litio es un elemento químico necesario para la composición de las baterías de los automóviles eléctricos y de gran importancia para la industria automovilística del futuro.
+Bolivia posee reservas estimadas en 21 millones de toneladas de litio, de las más grandes del mundo. La mayor parte de ellas se sitúan en el salar de Uyuni y en menor proporción en los yacimientos de Coipasa y Pastos Grandes, según un estudio del gobierno boliviano.
+Si bien Mujica dijo que no tiene pruebas para afirmar que detrás del golpe de Estado en Bolivia exista un interés por dicho elemento químico, de todos modos planteó su sospecha.
+“Para mí es un golpe de Estado, sin vueltas, porque hay un ultimátum del Ejército”, dijo Mujica este lunes 11.
+Cuestionó -en declaraciones a Televisión Nacional de Uruguay \(TNU\)- que después de que Evo Morales anunció el nuevo evento electoral, “la maquinaria golpista no se detuvo”.
+Al ser consultado si Morales se equivocó o tuvo responsabilidad en los hechos, respondió que “todo eso puede ser, pero no justifica el linchamiento”.
+“Bolivia es muy rica, se dice que tiene el 70% del material imprescindible para hacer las nuevas baterías. Todos sabemos que en el mundo hay un cambio energético. No estoy acusando, porque no tengo pruebas, estoy desconfiando, por la historia”.
+Agregó que “el viejo liberalismo está enfermo, está hackeado, porque el neoliberalismo no tiene ninguna cortapisa de aliarse con actitudes que son fascistoides”.
+Por su parte, Topolansky dijo que comparte la declaración de la Cancillería uruguaya en la que se habla de “quiebre del Estado de Derecho, que forzó la salida del poder del presidente Morales y que sumió al país en el caos y la violencia”.
+“Bolivia es de los países de Latinoamérica que tiene mejor crecimiento, menor inflación, además descendió la pobreza y la indigencia en un 25%, recuperó los hidrocarburos y ha comenzado a explotar el litio, considerado el mineral del futro”, remarcó Topolansky.
+Agregó. “Es un país que está en avance. Lamento en el alma estos sucesos y esperemos que no tengan costos de vida”.
+Destacó que Evo Morales, al igual que Fernando Lugo en Paraguay, tomó una actitud muy madura. “En un momento dado determinó que su permanencia en el gobierno podía significar un costo en vidas y se retiró, aunque ello no fuera lo más justo”.
+El gobierno uruguayo manifestó su consternación por el quiebre del Estado de derecho producido en…
+El ex presidente de la República, José Mujica, participo de una cena de bienvenida del Grupo de Puebla, que se reúne este fin de semana en Buenos Aires, Argentina. También asistieron los ex presidentes: Dilma Rousseff \(Brasil\), Ernesto Samper...
+El ex presidente de la República, José Mujica, expresó que la liberación de Luiz Inácio Lula da Silva debe ser tomada como una fiesta para la tolerancia, tanto en Brasil como en nuestra América.
+Junto a Yamandú Orsi y otros referentes, José Mujica irá con todo para lograr el cuarto gobierno del Frente Amplio.
+El Partido Por la Victoria del Pueblo PVP – Espacio 567 exigirá la renuncia de Gabriela Fulco como presidenta del Instituto Nacional de Inclusión Social Adolescente \(INISA\) quien se manifestó a favor del servicio militar obligatorio para...
+Este miércoles será la última oportunidad para los dos candidatos para debatir frente a frente, a fin de convencer a los votantes indecisos o de robarle algunos votos a su contrincante."""
+		keywords = rake_object.run(text)
+		data = {"data": set(keywords)} # without_nnp, ne_tree_without_nnp
+		return TemplateResponse(request, 'test.html', data)
+
+
+
 
 def db(request):
 

@@ -10,9 +10,12 @@
 9
 _
 a
+abordará
+abordar
 acá
 actualmente
 acuerdo
+acaban
 adelante
 ademas
 además
@@ -55,6 +58,8 @@ aquí
 arriba
 arribaabajo
 aseguró
+asistieron
+asistir
 asi
 así
 atras
@@ -88,6 +93,7 @@ como
 con
 conmigo
 conocer
+concediera
 conseguimos
 conseguir
 considera
@@ -97,7 +103,9 @@ consigue
 consiguen
 consigues
 contigo
+continuaba
 contra
+correspondiente
 cosas
 copyright
 creo
@@ -155,10 +163,14 @@ diferente
 diferentes
 dijeron
 dijo
+dispone
+dispuesto
 dio
+discutirán
 donde
 dos
 durante
+durará
 día
 días
 dónde
@@ -170,6 +182,7 @@ ella
 ellas
 ello
 ellos
+eliminaría
 error
 embargo
 empleais
@@ -181,9 +194,12 @@ en
 encima
 encuentra
 enfrente
+enfrentarán
 enseguida
+entiende
 entonces
 entre
+envuelto
 era
 erais
 eramos
@@ -320,6 +336,7 @@ hacer
 hacerlo
 haces
 hacia
+hacía
 haciendo
 hago
 han
@@ -370,6 +387,7 @@ intento
 ir
 j
 junto
+justamente
 k
 l
 la
@@ -401,6 +419,9 @@ menos
 menudo
 mi
 mia
+mirá
+miras
+miraban
 mias
 mientras
 mio
@@ -447,6 +468,7 @@ nuevos
 nunca
 o
 ocho
+ocurrió
 os
 otra
 otras
@@ -458,6 +480,7 @@ para
 parece
 parte
 partir
+participar
 pasa
 pasada
 pasado
@@ -512,6 +535,7 @@ q
 qeu
 que
 quedó
+quedará
 queremos
 quien
 quienes
@@ -525,12 +549,15 @@ quiénes
 qué
 r
 raras
+rediseñaría
 realizado
 realizar
+realizará
 realizó
 repente
 respecto
 recordar
+recibirá
 s
 sabe
 sabeis
@@ -538,6 +565,7 @@ sabemos
 saben
 saber
 sabes
+sacando
 sal
 salvo
 se
@@ -632,6 +660,7 @@ tenido
 tenidos
 teniendo
 tenéis
+tenés
 tenía
 teníais
 teníamos
@@ -658,7 +687,10 @@ trabajar
 trabajas
 trabajo
 tras
+transmitirse
+transmitir
 trata
+tratará
 través
 tres
 tu
@@ -717,6 +749,7 @@ verdad
 verdadera
 verdadero
 vez
+volver
 vosotras
 vosotros
 voy
