@@ -22,7 +22,7 @@ urlpatterns = [
 	path("", csrf_exempt(MainClass.as_view())),
     path("keywordextract/", csrf_exempt(ApiClass.as_view())),
     path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
-    path("raketest/", csrf_exempt(RakeTest.as_view())),
+    path("rake/", csrf_exempt(RakeTest.as_view())),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
 ]

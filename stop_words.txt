@@ -96,6 +96,7 @@ como
 con
 conmigo
 conocer
+conocen
 concediera
 conseguimos
 conseguir
@@ -133,6 +134,7 @@ cuántas
 cuánto
 cuántos
 cómo
+comenta
 culmino
 d
 da
@@ -288,6 +290,7 @@ existe
 existen
 exista
 explicó
+explica
 expresó
 exigirá
 f
@@ -408,6 +411,7 @@ k
 l
 la
 lado
+lanzó
 largo
 las
 le
@@ -584,6 +588,8 @@ realizada
 repente
 respecto
 recordar
+recientemente
+recuerdan
 recibirá
 recibió
 relacionada
@@ -608,6 +614,7 @@ segunda
 segundo
 según
 seis
+señalan
 ser
 sera
 seremos
@@ -631,6 +638,7 @@ siete
 sigue
 siguiente
 significar
+simplemente
 sitúan
 sin
 sino
@@ -664,6 +672,7 @@ tan
 tanto
 tarde
 te
+terminaran
 temprano
 tendremos
 tendrá
@@ -768,6 +777,7 @@ uso
 usted
 ustedes
 v
+viene
 ve
 va
 vais
