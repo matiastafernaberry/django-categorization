@@ -336,85 +336,90 @@ class NameExtractClass(View):
 
 
 	def post(self, request):
-		main = MainClass()
-		#url = "http://www.lr21.com.uy/deportes/1415084-seleccion-uruguay-futbol-hungria-argentina-israel-crisis"
-		#texto = main.extracttext(url)
-		#sentences = json.loads(texto)
-		#sentences = sentences["data"]
-		#sentences = """
-		#Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and the first to feature the spacesuit’s full-body look.
-		#"""
-		sentences = self.request.POST["text"]
-		l = []
-		toktok = ToktokTokenizer()
-		# sr = stopwords.words('spanish')
-		f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
-		line = f.readline()
-		cnt = 1
-		# guardo los stopwords en una lista 
-		stopwords_list = []
-		while line:
+		try:
+			main = MainClass()
+			#url = "http://www.lr21.com.uy/deportes/1415084-seleccion-uruguay-futbol-hungria-argentina-israel-crisis"
+			#texto = main.extracttext(url)
+			#sentences = json.loads(texto)
+			#sentences = sentences["data"]
+			#sentences = """
+			#Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and the first to feature the spacesuit’s full-body look.
+			#"""
+			sentences = self.request.POST["text"]
+			l = []
+			toktok = ToktokTokenizer()
+			# sr = stopwords.words('spanish')
+			f = open(os.path.join(settings.BASE_DIR, 'stop_words.txt'), encoding='utf-8')
 			line = f.readline()
-			line = line.rstrip('\n')
-			cnt += 1
-			stopwords_list.append(line)
+			cnt = 1
+			# guardo los stopwords en una lista 
+			stopwords_list = []
+			while line:
+				line = f.readline()
+				line = line.rstrip('\n')
+				cnt += 1
+				stopwords_list.append(line)
 
-		ne_tree = pos_tag(word_tokenize(sentences), lang='eng')
-		ne_tree_without_nnp = []
-		without_nnp = []
-		#iob_tagged = tree2conlltags(ne_tree)
-		#data = {"data": ne_tree}
-		#return TemplateResponse(request, 'test.html', data)
-		def clean(word):
-			word = word.replace("<br>", "")
-			word = word.replace(">", "")
-			word = re.sub('\W+', '', word)
-			return word
+			ne_tree = pos_tag(word_tokenize(sentences), lang='eng')
+			ne_tree_without_nnp = []
+			without_nnp = []
+			#iob_tagged = tree2conlltags(ne_tree)
+			#data = {"data": ne_tree}
+			#return TemplateResponse(request, 'test.html', data)
+			def clean(word):
+				word = word.replace("<br>", "")
+				word = word.replace(">", "")
+				word = re.sub('\W+', '', word)
+				return word
 
-		nnp = False
-		for n in ne_tree:
-			#print(n[1])
-			token = []
-			if n[1] in ("NNP"): #"NNS", "NN"
-				if nnp: 
-					#print("true")
-					#print(n[0])
-					nnp = False
-					last_str = without_nnp.pop()
-					str_words = n[0]
-					str_words = clean(str_words)
+			nnp = False
+			for n in ne_tree:
+				#print(n[1])
+				token = []
+				if n[1] in ("NNP"): #"NNS", "NN"
+					if nnp: 
+						#print("true")
+						#print(n[0])
+						nnp = False
+						last_str = without_nnp.pop()
+						str_words = n[0]
+						str_words = clean(str_words)
 
-					if str_words.lower() not in stopwords_list: 
-						ne_tree_without_nnp.append(last_str + " " + str_words)
-					else: nnp = False
-				else: 
-					#print("false")
-					#print(n[0])
-					without_nnp_str_words = n[0]
-					without_nnp_str_words = clean(without_nnp_str_words)
-					if without_nnp_str_words.lower() not in stopwords_list: 
-						if without_nnp_str_words.strip():
-							without_nnp.append(without_nnp_str_words)
-							print(without_nnp)
+						if str_words.lower() not in stopwords_list: 
+							ne_tree_without_nnp.append(last_str + " " + str_words)
+						else: nnp = False
+					else: 
+						#print("false")
+						#print(n[0])
+						without_nnp_str_words = n[0]
+						without_nnp_str_words = clean(without_nnp_str_words)
+						if without_nnp_str_words.lower() not in stopwords_list: 
+							if without_nnp_str_words.strip():
+								without_nnp.append(without_nnp_str_words)
+								print(without_nnp)
 
-							nnp = True
-			else: nnp = False
+								nnp = True
+				else: nnp = False
 
-		for sent in sent_tokenize(sentences, language='spanish'):
-			token = []
-			tok = toktok.tokenize(sent)
-			for to in tok:
-				to = to.lower()
-				to = to.replace("<br>", "")
-				to = re.sub('\W+', '', to)
-				if to not in stopwords_list: token.append(to)
-			l.extend(token)
+			for sent in sent_tokenize(sentences, language='spanish'):
+				token = []
+				tok = toktok.tokenize(sent)
+				for to in tok:
+					to = to.lower()
+					to = to.replace("<br>", "")
+					to = re.sub('\W+', '', to)
+					if to not in stopwords_list: token.append(to)
+				l.extend(token)
 
-		
-		obj = {'data': str(list(set(ne_tree_without_nnp)))}
-		dump = json.dumps(obj)
-		return HttpResponse(dump, content_type='application/json')
-		
+			
+			obj = {'data': str(list(set(ne_tree_without_nnp)))}
+			dump = json.dumps(obj)
+			return HttpResponse(dump, content_type='application/json')
+		except:
+			error = traceback.format_exc()
+			obj = {'data': error}
+			dump = json.dumps(obj)
+			return HttpResponse(dump, content_type='application/json')
 
 class RakeTest(View):
 	def get(self, request):
