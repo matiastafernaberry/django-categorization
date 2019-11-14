@@ -1,3 +1,5 @@
+<br>
+>
 0
 1
 2
@@ -67,6 +69,7 @@ aun
 aunque
 ayer
 añadió
+anunció
 aún
 b
 bajo
@@ -98,12 +101,14 @@ conseguimos
 conseguir
 considera
 consideró
+consideran
 consigo
 consigue
 consiguen
 consigues
 contigo
 continuaba
+constató
 contra
 correspondiente
 cosas
@@ -128,6 +133,7 @@ cuántas
 cuánto
 cuántos
 cómo
+culmino
 d
 da
 dado
@@ -140,6 +146,8 @@ deben
 debido
 deberían
 decir
+decidió
+decidan
 dejó
 del
 delante
@@ -212,6 +220,7 @@ esas
 ese
 eso
 esos
+espera
 esta
 estaba
 estabais
@@ -269,13 +278,18 @@ esté
 estéis
 estén
 estés
+específicamente
+estrictamente
+exactamente
 etc
 ex
 excepto
 existe
 existen
+exista
 explicó
 expresó
+exigirá
 f
 fin
 final
@@ -374,6 +388,7 @@ hubo
 i
 igual
 incluso
+incidían
 indicó
 informo
 informó
@@ -385,6 +400,7 @@ intentar
 intentas
 intento
 ir
+irá
 j
 junto
 justamente
@@ -402,11 +418,13 @@ lleva
 llevar
 lo
 los
+lograron
 luego
 lugar
 m
 mal
 manera
+mandan
 manifestó
 mas
 mayor
@@ -447,6 +465,7 @@ míos
 n
 nada
 nadie
+necesario
 ni
 ninguna
 ningunas
@@ -467,6 +486,7 @@ nuevo
 nuevos
 nunca
 o
+obtuvieron
 ocho
 ocurrió
 os
@@ -487,6 +507,7 @@ pasado
 paìs
 peor
 pero
+permitio
 pesar
 poca
 pocas
@@ -495,6 +516,7 @@ pocos
 podeis
 podemos
 poder
+podía
 podria
 podriais
 podriamos
@@ -510,6 +532,7 @@ por
 portal
 por qué
 porque
+porqué
 posible
 primer
 primera
@@ -525,7 +548,9 @@ propuso
 proximo
 próximo
 próximos
+proviene
 pudo
+públicamente
 pueda
 puede
 pueden
@@ -535,6 +560,7 @@ q
 qeu
 que
 quedó
+quedan
 quedará
 queremos
 quien
@@ -554,10 +580,13 @@ realizado
 realizar
 realizará
 realizó
+realizada
 repente
 respecto
 recordar
 recibirá
+recibió
+relacionada
 s
 sabe
 sabeis
@@ -566,6 +595,7 @@ saben
 saber
 sabes
 sacando
+sacarle
 sal
 salvo
 se
@@ -600,6 +630,8 @@ siendo
 siete
 sigue
 siguiente
+significar
+sitúan
 sin
 sino
 sobre
@@ -726,6 +758,8 @@ uno
 unos
 usa
 usais
+usarlos
+usarlo
 usamos
 usan
 usar

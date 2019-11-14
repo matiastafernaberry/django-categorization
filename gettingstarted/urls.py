@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 admin.autodiscover()
 
 import hello.views
-from hello.views import MainClass, ApiClass, TestClass, RakeTest
+from hello.views import MainClass, ApiClass, NameExtractClass, RakeTest
 
 
 # To add a new path, first import the app:
@@ -21,7 +21,7 @@ from hello.views import MainClass, ApiClass, TestClass, RakeTest
 urlpatterns = [
 	path("", csrf_exempt(MainClass.as_view())),
     path("keywordextract/", csrf_exempt(ApiClass.as_view())),
-    path("test/", csrf_exempt(TestClass.as_view())),
+    path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
     path("raketest/", csrf_exempt(RakeTest.as_view())),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
