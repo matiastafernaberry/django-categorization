@@ -416,6 +416,7 @@ junto
 justamente
 k
 l
+líder
 la
 lado
 lanzó
@@ -424,6 +425,7 @@ las
 le
 lejos
 les
+llama
 llegó
 lleva
 llevar
@@ -657,6 +659,7 @@ sigue
 siguiente
 significar
 simplemente
+similar
 sitúan
 sin
 sino
@@ -732,6 +735,7 @@ tiempo
 tiene
 tienen
 tienes
+titula
 toda
 todas
 todavia
