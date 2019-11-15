@@ -16,6 +16,7 @@ abordará
 abordar
 acá
 actualmente
+actuando
 acuerdo
 acaban
 adelante
@@ -115,6 +116,7 @@ correspondiente
 cosas
 copyright
 creo
+crítico
 cual
 cuales
 cualquier
@@ -135,6 +137,8 @@ cuánto
 cuántos
 cómo
 comenta
+compartió
+criticó
 culmino
 d
 da
@@ -161,6 +165,7 @@ desde
 despacio
 despues
 después
+determinada
 detras
 detrás
 dia
@@ -195,6 +200,7 @@ ellos
 eliminaría
 error
 embargo
+embanderándola
 empleais
 emplean
 emplear
@@ -367,6 +373,7 @@ hayas
 hayáis
 he
 hecho
+hechos
 hemos
 hicieron
 hizo
@@ -511,8 +518,10 @@ pasado
 paìs
 peor
 pero
+pensamiento
 permitio
 pesar
+planteó
 poca
 pocas
 poco
@@ -538,6 +547,7 @@ por qué
 porque
 porqué
 posible
+postura
 primer
 primera
 primero
@@ -548,6 +558,7 @@ propia
 propias
 propio
 propios
+propone
 propuso
 proximo
 próximo
@@ -559,6 +570,7 @@ pueda
 puede
 pueden
 puedo
+pudor
 pues
 q
 qeu
@@ -588,6 +600,7 @@ realizó
 realizada
 repente
 respecto
+respondió
 recordar
 recientemente
 recuerdan
@@ -616,6 +629,7 @@ segundo
 según
 seis
 señalan
+señala
 ser
 sera
 seremos
@@ -651,6 +665,7 @@ solas
 solo
 solos
 somos
+sostiene
 son
 soy
 soyos
@@ -766,6 +781,7 @@ una
 unas
 uno
 unos
+único
 usa
 usais
 usarlos
