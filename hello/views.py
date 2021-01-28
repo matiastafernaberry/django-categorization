@@ -214,8 +214,12 @@ class NameExtractClass(View):
 		texto = main.extracttext(url)
 		sentences = json.loads(texto)
 		sentences = sentences["data"]
-		sentences = """El líder de Alianza Nacional Jorge Larrañaga señaló este lunes en una carta pública que hay “instituciones públicas que se deben a todos los uruguayos, que están actuando orgánicamente al compás del dictamen y las necesidades de la 'fuerza política'; sí, del Frente Amplio”, en referencia a la campaña contra el plebiscito que impulsa la iniciativa Vivir sin Miedo, que encabeza el senador nacionalista. En la carta, que se titula “Patoteros del poder” y que el legislador compartió en su cuenta de Twitter, Larrañaga señala al comienzo que su reforma “está bajo ataque del Frente Amplio algo esperable porque cuestiona una de sus mayores falencias, la falta de respuestas en materia de seguridad-, pero también, bajo taque de instituciones públicas que deberían actuar regidas por los códigos de neutralidad y decoro republicano y no por los designios frentistas”. Además, el senador planteó que si él “propone” realizar allanamientos nocturnos “está mal”. Pero, agregó, los “hechos” marcan que el presidente Tabaré Vázquez en 2006 en el Proyecto de Ley de Procedimiento Policial, también los incluía. José Mujica los propuso, Eduardo Bonomi, los propuso, y una cantidad de dirigentes de todas las orientaciones han mostrado su conformidad con la propuesta”. “Son permitidos en casi todo el mundo, solo Portugal tiene una prohibición similar a la de nuestra Constitución. Entonces, ¿están mal los allanamientos nocturnos o quien los plantea?”, agregó. El exprecandidato sostiene en el texto que el Frente Amplio ha construido “a lo largo de décadas” un “aparato cultural”, el cual “suele asistir al aparato político actuando en sintonía y coadyuvando a generar una hegemonía mediante un culto al pensamiento único, erigiéndose en jueces de lo moral y políticamente correcto”. A estas instituciones que apoyan la campaña contraria a la reforma les llama “agencias satélites de un proyecto político”. En tal sentido, se refiere a instituciones públicas como la Institución Nacional de Derechos Humanos (Inddhh), “emitiendo no uno sino dos pronunciamientos sin fundamentos contra la reforma” y también suma a su lista a centros de enseñanza públicos. Además, Larrañaga criticó que "instituciones" como la Universidad de la República (UdelaR) que “deberían inspirarse en un espíritu crítico, científico y riguroso, pasan a actuar como delegados de lujo de una postura partidista”. nombra a la Facultad de Psicología, que divulgó el viernes una carta donde señala que la reforma Vivir sin Miedo "propone medidas que ponen en riesgo la vida plena de las y los habitantes del país, produciendo condiciones represivas que generan violencia, temor y sufrimiento mental”. Respecto a esta última expresión, Larrañaga respondió: “Sin palabras. No tienen pudor frente al disparate”. "No tienen derecho los que son coyuntural mayoría a excluir a otros. Eso pasa en algunas Facultades que hacen campaña. ¿Y los que tiene otra posición? Más aún, si no hubiera ningún estudiante, ningún profesor, ningún gremialista a favor de una posición, eso tampoco le da derecho a nadie a apropiarse de la Institución embanderándola con una postura determinada", dijo Larrañaga. Considera además “escandaloso” que las instituciones públicas “oficialicen una posición, que abandonen la neutralidad, atacando al principio de laicidad”. Además, manifestó que el “principal arsenal son los prejuicios y los falsos 'cucos' importados y no los argumentos. Se usan palabras, pero se reniega de los hechos”, esta última expresión, en referencia a los dichos del candidato presidencial Daniel Martínez durante el debate presidencial del 1° de octubre pasado ("hechos, no palabras"). """
-		
+		sentences = """El comisionado aviador Jeremías Guillermo Urieta Quintero fue designado por el presidente Laurentino Cortizo como nuevo director general del Servicio Nacional Aeronaval \(Senan\), en remplazo del comisionado Ramón Nonato López, quien se acoge a jubilación luego de 30 años de servicio continuo a la institución.
+			El comisionado Urieta Quintero es oficial aviador egresado de la Academia de la Fuerza Aérea de la República Federativa de Brasil en el grado de subteniente e ingresó al Servicio Aéreo Nacional en 1992, como piloto aviador orgánico del Primer Escuadrón de Transporte Aéreo y del Escuadrón de Reconocimiento y Entrenamiento Aéreo.Ante la falta de respuestas, un grupo de estudiantes ingresó a las oficinas administrativas de forma violenta, exigiendo que se les brindara solución al problema.
+			Es parte de su formación académica una licenciatura en Derecho y Ciencias Políticas de la Universidad Latinoamericana de Ciencia y Tecnología, un curso de Perspectivas de Seguridad y Defensa Nacional, del Centro Hemisférico de Estudios de Defensa, Universidad de Defensa de los Estados Unidos de Norteamérica en Fort Lesley J. McNair, Washington D.C., y un curso de Estrategia y Políticas de Defensa en el Centro Hemisférico de Estudios de Defensa, Universidad de Defensa de los Estados Unidos de Norteamérica, Fort Lesley J. McNair, Washington D.C. de los Estados Unidos.
+			Dentro del SENAN ha sido oficial de la Seguridad del Aeropuerto Internacional de Tocumen, director nacional de Docencia, jefe del Departamento de Finanzas, director nacional de Logística, oficial de Enlace ante el Sistema de Cooperación entre las Fuerzas Aéreas Americanas \(SICOFAA\), director nacional de Recursos Humanos, secretario general, inspector general, jefe del Grupo Aéreo y director nacional de Asuntos Jurídicos.
+			En el servicio exterior, el director del SENAN designado ha ocupado los cargos de subsecretario general del Sistema de Cooperación entre las Fuerzas Aéreas Americanas en la Base Aérea Davis-Monthan, Tucson, Arizona, Estados Unidos y Agregado Aéreo y Naval de Panamá en Brasil.
+			El nuevo director general del SENAN será juramentado en el cargo este jueves 28 de enero en la Escuela de Oficiales ubicada en Colón, en una ceremonia encabezada por el presidente Cohen."""
 		l = []
 		toktok = ToktokTokenizer()
 		# sr = stopwords.words('spanish')
@@ -243,37 +247,30 @@ class NameExtractClass(View):
 			return word
 
 		nnp = False
+		a = []
+		prev_word = ''
 		for n in ne_tree:
-			#print(n[1])
 			token = []
-			if n[1] in ("NNP"): #"NNS", "NN"
-				if nnp: 
-					#print("true")
-					#print(n[0])
-					#nnp = False
-					if without_nnp: last_str = without_nnp.pop()
-					else: last_str = ""
-					str_words = n[0]
-					str_words = clean(str_words)
-					word = last_str + " " + str_words
-
-					if str_words.lower() not in stopwords_list: 
-						ne_tree_without_nnp.append(word)
-						f = open("demofile2.txt", "a")
-						f.write((word.lower()).strip() + "\n")
-						f.close()
-					else: nnp = False
-				else: 
-					#print("false")
-					#print(n[0])
-					without_nnp_str_words = n[0]
-					without_nnp_str_words = clean(without_nnp_str_words)
-					if without_nnp_str_words.lower() not in stopwords_list: 
-						if without_nnp_str_words.strip():
-							without_nnp.append(without_nnp_str_words)
-							nnp = True
-
-			else: nnp = False
+			str_words = n[0]
+			str_words = clean(str_words)
+			#print(n[0])
+			#print(n[1])
+			#print(' ')
+			if n[1] == "NNP":
+				if str_words.lower() not in stopwords_list: 
+					if n[1] == "NNP":
+						a.append(str_words)
+					ne_tree_without_nnp.append(str_words)
+			else: 
+				if str_words.lower() not in stopwords_list: 
+					str_words = ' '.join(a)
+					ne_tree_without_nnp.append(str_words)
+				if len(a) > 0:
+					str_words = ' '.join(a)
+					ne_tree_without_nnp.append(str_words)
+				print(a)
+				print(' ')
+				a = []
 
 		for sent in sent_tokenize(sentences, language='spanish'):
 			token = []
@@ -286,7 +283,15 @@ class NameExtractClass(View):
 			l.extend(token)
 
 		iob_tagged = tree2conlltags(ne_tree)
-		data = {"data": set(ne_tree_without_nnp)} # without_nnp, ne_tree_without_nnp
+
+		ne_tree_without_nnp = [e for e in ne_tree_without_nnp if e != '']
+		l = []
+		for y in ne_tree_without_nnp:
+			length = len([e for e in ne_tree_without_nnp if e == y])
+			l.append(y if length > 2 else '')
+			
+
+		data = {"data": set(l)} # without_nnp, ne_tree_without_nnp
 		return TemplateResponse(request, 'test.html', data)
 
 
@@ -381,7 +386,7 @@ class RakeTest(View):
 	def get(self, request):
 		stop_dir = "stop_words.txt"
 		rake_object = RAKE.Rake(stop_dir)
-		text = """El líder de Alianza Nacional Jorge Larrañaga señaló este lunes en una carta pública que hay “instituciones públicas que se deben a todos los uruguayos, que están actuando orgánicamente al compás del dictamen y las necesidades de la 'fuerza política'; sí, del Frente Amplio”, en referencia a la campaña contra el plebiscito que impulsa la iniciativa Vivir sin Miedo, que encabeza el senador nacionalista. En la carta, que se titula “Patoteros del poder” y que el legislador compartió en su cuenta de Twitter, Larrañaga señala al comienzo que su reforma “está bajo ataque del Frente Amplio algo esperable porque cuestiona una de sus mayores falencias, la falta de respuestas en materia de seguridad-, pero también, bajo taque de instituciones públicas que deberían actuar regidas por los códigos de neutralidad y decoro republicano y no por los designios frentistas”. Además, el senador planteó que si él “propone” realizar allanamientos nocturnos “está mal”. Pero, agregó, los “hechos” marcan que el presidente Tabaré Vázquez en 2006 en el Proyecto de Ley de Procedimiento Policial, también los incluía. José Mujica los propuso, Eduardo Bonomi, los propuso, y una cantidad de dirigentes de todas las orientaciones han mostrado su conformidad con la propuesta”. “Son permitidos en casi todo el mundo, solo Portugal tiene una prohibición similar a la de nuestra Constitución. Entonces, ¿están mal los allanamientos nocturnos o quien los plantea?”, agregó. El exprecandidato sostiene en el texto que el Frente Amplio ha construido “a lo largo de décadas” un “aparato cultural”, el cual “suele asistir al aparato político actuando en sintonía y coadyuvando a generar una hegemonía mediante un culto al pensamiento único, erigiéndose en jueces de lo moral y políticamente correcto”. A estas instituciones que apoyan la campaña contraria a la reforma les llama “agencias satélites de un proyecto político”. En tal sentido, se refiere a instituciones públicas como la Institución Nacional de Derechos Humanos (Inddhh), “emitiendo no uno sino dos pronunciamientos sin fundamentos contra la reforma” y también suma a su lista a centros de enseñanza públicos. Además, Larrañaga criticó que "instituciones" como la Universidad de la República (UdelaR) que “deberían inspirarse en un espíritu crítico, científico y riguroso, pasan a actuar como delegados de lujo de una postura partidista”. nombra a la Facultad de Psicología, que divulgó el viernes una carta donde señala que la reforma Vivir sin Miedo "propone medidas que ponen en riesgo la vida plena de las y los habitantes del país, produciendo condiciones represivas que generan violencia, temor y sufrimiento mental”. Respecto a esta última expresión, Larrañaga respondió: “Sin palabras. No tienen pudor frente al disparate”. "No tienen derecho los que son coyuntural mayoría a excluir a otros. Eso pasa en algunas Facultades que hacen campaña. ¿Y los que tiene otra posición? Más aún, si no hubiera ningún estudiante, ningún profesor, ningún gremialista a favor de una posición, eso tampoco le da derecho a nadie a apropiarse de la Institución embanderándola con una postura determinada", dijo Larrañaga. Considera además “escandaloso” que las instituciones públicas “oficialicen una posición, que abandonen la neutralidad, atacando al principio de laicidad”. Además, manifestó que el “principal arsenal son los prejuicios y los falsos 'cucos' importados y no los argumentos. Se usan palabras, pero se reniega de los hechos”, esta última expresión, en referencia a los dichos del candidato presidencial Daniel Martínez durante el debate presidencial del 1° de octubre pasado ("hechos, no palabras"). """
+		text = """Comisionado Jeremías Urieta, nuevo director del SENAN"""
 		#main = MainClass()
 		#url = "http://www.lr21.com.uy/deportes/1415084-seleccion-uruguay-futbol-hungria-argentina-israel-crisis"
 		#texto = main.extracttext(url)
@@ -453,11 +458,3 @@ class RakeTest(View):
 			return HttpResponse(dump, content_type='application/json')
 
 
-
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-    greetings = Greeting.objects.all()
-
-    return render(request, "db.html", {"greetings": greetings})
