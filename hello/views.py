@@ -287,8 +287,11 @@ class NameExtractClass(View):
 		ne_tree_without_nnp = [e for e in ne_tree_without_nnp if e != '']
 		l = []
 		for y in ne_tree_without_nnp:
-			length = len([e for e in ne_tree_without_nnp if e == y])
-			l.append(y if length > 2 else '')
+			two_words = y if len(y.split(' ')) > 1 else ''
+			if not two_words:
+				length = len([e for e in ne_tree_without_nnp if e == y])
+				l.append(y if length > 2 else '')
+			else: l.append(y)
 			
 
 		data = {"data": set(l)} # without_nnp, ne_tree_without_nnp
