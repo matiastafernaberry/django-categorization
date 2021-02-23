@@ -13,6 +13,8 @@ from nltk import sent_tokenize, ne_chunk, pos_tag, word_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 from nltk.chunk import conlltags2tree, tree2conlltags
+from nltk.stem import SnowballStemmer
+
 nltk.data.path.append('./nltk_data/')
 
 from django.shortcuts import render
@@ -214,12 +216,7 @@ class NameExtractClass(View):
 		texto = main.extracttext(url)
 		sentences = json.loads(texto)
 		sentences = sentences["data"]
-		sentences = """El comisionado aviador Jeremías Guillermo Urieta Quintero fue designado por el presidente Laurentino Cortizo como nuevo director general del Servicio Nacional Aeronaval \(Senan\), en remplazo del comisionado Ramón Nonato López, quien se acoge a jubilación luego de 30 años de servicio continuo a la institución.
-			El comisionado Urieta Quintero es oficial aviador egresado de la Academia de la Fuerza Aérea de la República Federativa de Brasil en el grado de subteniente e ingresó al Servicio Aéreo Nacional en 1992, como piloto aviador orgánico del Primer Escuadrón de Transporte Aéreo y del Escuadrón de Reconocimiento y Entrenamiento Aéreo.Ante la falta de respuestas, un grupo de estudiantes ingresó a las oficinas administrativas de forma violenta, exigiendo que se les brindara solución al problema.
-			Es parte de su formación académica una licenciatura en Derecho y Ciencias Políticas de la Universidad Latinoamericana de Ciencia y Tecnología, un curso de Perspectivas de Seguridad y Defensa Nacional, del Centro Hemisférico de Estudios de Defensa, Universidad de Defensa de los Estados Unidos de Norteamérica en Fort Lesley J. McNair, Washington D.C., y un curso de Estrategia y Políticas de Defensa en el Centro Hemisférico de Estudios de Defensa, Universidad de Defensa de los Estados Unidos de Norteamérica, Fort Lesley J. McNair, Washington D.C. de los Estados Unidos.
-			Dentro del SENAN ha sido oficial de la Seguridad del Aeropuerto Internacional de Tocumen, director nacional de Docencia, jefe del Departamento de Finanzas, director nacional de Logística, oficial de Enlace ante el Sistema de Cooperación entre las Fuerzas Aéreas Americanas \(SICOFAA\), director nacional de Recursos Humanos, secretario general, inspector general, jefe del Grupo Aéreo y director nacional de Asuntos Jurídicos.
-			En el servicio exterior, el director del SENAN designado ha ocupado los cargos de subsecretario general del Sistema de Cooperación entre las Fuerzas Aéreas Americanas en la Base Aérea Davis-Monthan, Tucson, Arizona, Estados Unidos y Agregado Aéreo y Naval de Panamá en Brasil.
-			El nuevo director general del SENAN será juramentado en el cargo este jueves 28 de enero en la Escuela de Oficiales ubicada en Colón, en una ceremonia encabezada por el presidente Cohen."""
+		sentences = """Cabalgata y juegos de toro en Atalaya"""
 		l = []
 		toktok = ToktokTokenizer()
 		# sr = stopwords.words('spanish')
@@ -253,10 +250,10 @@ class NameExtractClass(View):
 			token = []
 			str_words = n[0]
 			str_words = clean(str_words)
-			#print(n[0])
-			#print(n[1])
-			#print(' ')
-			if n[1] == "NNP":
+			print(n[0])
+			print(n[1])
+			print(' ')
+			if n[1] in ("NNP", "VBZ","NN", "FW"):
 				if str_words.lower() not in stopwords_list: 
 					if n[1] == "NNP":
 						a.append(str_words)
@@ -294,21 +291,38 @@ class NameExtractClass(View):
 			else: l.append(y)
 			
 
-		data = {"data": set(l)} # without_nnp, ne_tree_without_nnp
-		return TemplateResponse(request, 'test.html', data)
-
+		data = {"data": set(ne_tree_without_nnp)} # without_nnp, ne_tree_without_nnp
+		data = {"data": str(set(ne_tree_without_nnp))} # without_nnp, ne_tree_without_nnp
+		dump = json.dumps(data)
+		return HttpResponse(dump, content_type='application/json')
+		#return TemplateResponse(request, 'test.html', data)
 
 	def post(self, request):
-		try:
-			#main = MainClass()
-			#url = "http://www.lr21.com.uy/deportes/1415084-seleccion-uruguay-futbol-hungria-argentina-israel-crisis"
-			#texto = main.extracttext(url)
-			#sentences = json.loads(texto)
-			#sentences = sentences["data"]
-			#sentences = """
-			#Elon Musk has shared a photo of the spacesuit designed by SpaceX. This is the second image shared of the new design and the first to feature the spacesuit’s full-body look.
-			#"""
-			sentences = self.request.POST["text"]
+		main = MainClass()
+		#print('values')
+		#print(request.body)
+		#print(' ')
+		body_unicode = request.body.decode('utf-8')
+		body_unicode = json.loads(body_unicode)
+		#print(body_unicode[0]['Headline'])
+		#print(type(body_unicode))
+		#print(' ')
+		#body = json.loads(body_unicode)
+		#print(body['data'])
+		#print(body['Id_URL'])
+
+		#print(' ')
+		#url = "https://ladiaria.com.uy/articulo/2019/11/dirigente-de-cabildo-abierto-es-investigado-por-la-justicia-por-convocar-a-crear-un-escuadron-de-la-muerte/"
+		#texto = main.extracttext(url)
+		#sentences = json.loads(texto)
+		#sentences = sentences["data"]
+		#sentences = body_unicode #body['data']
+		dump = []
+		for senten in body_unicode:
+			#print('sentence')
+			#print(senten)
+			sentences = senten['Headline']
+			#print(' ')
 			l = []
 			toktok = ToktokTokenizer()
 			# sr = stopwords.words('spanish')
@@ -336,33 +350,36 @@ class NameExtractClass(View):
 				return word
 
 			nnp = False
+			a = []
+			prev_word = ''
 			for n in ne_tree:
-				#print(n[1])
 				token = []
-				if n[1] in ("NNP"): #"NNS", "NN"
-					if nnp: 
-						#print("true")
-						#print(n[0])
-						nnp = False
-						last_str = without_nnp.pop()
-						str_words = n[0]
-						str_words = clean(str_words)
-						str_words = last_str + " " + str_words
-						if str_words.lower() not in stopwords_list: 
-							ne_tree_without_nnp.append(str_words)
-						else: nnp = False
-					else: 
-						#print("false")
-						#print(n[0])
-						without_nnp_str_words = n[0]
-						without_nnp_str_words = clean(without_nnp_str_words)
-						if without_nnp_str_words.lower() not in stopwords_list: 
-							if without_nnp_str_words.strip():
-								without_nnp.append(without_nnp_str_words)
-								#print(without_nnp)
+				str_words = n[0]
+				str_words = clean(str_words)
+				#print(n[0])
+				#print(n[1])
+				#print(' ')
+				if n[1] in ("NNP", "VBZ","NN", "FW"):
+					str_words = str_words.lower()
+					str_words = str_words.strip()
+					if str_words.lower() not in stopwords_list: 
+						stemmer = SnowballStemmer('spanish')
+						if n[1] in ("VBZ", "FW"):
+							str_words = stemmer.stem(str_words)
+						if n[1] == "NNP":
+							a.append(str_words)
+						ne_tree_without_nnp.append(str_words)
 
-								nnp = True
-				else: nnp = False
+				else: 
+					if str_words.lower() not in stopwords_list: 
+						str_words = ' '.join(a)
+						ne_tree_without_nnp.append(str_words)
+					if len(a) > 0:
+						str_words = ' '.join(a)
+						ne_tree_without_nnp.append(str_words)
+					#print(a)
+					#print(' ')
+					a = []
 
 			for sent in sent_tokenize(sentences, language='spanish'):
 				token = []
@@ -374,15 +391,75 @@ class NameExtractClass(View):
 					if to not in stopwords_list: token.append(to)
 				l.extend(token)
 
+			iob_tagged = tree2conlltags(ne_tree)
+
+			ne_tree_without_nnp = [e for e in ne_tree_without_nnp if e != '']
+			l = []
+			for y in ne_tree_without_nnp:
+				two_words = y if len(y.split(' ')) > 1 else ''
+				if not two_words:
+					length = len([e for e in ne_tree_without_nnp if e == y])
+					l.append(y if length > 2 else '')
+				else: l.append(y)
+				
+			senten['keys'] = list(set(ne_tree_without_nnp))
+			senten['Similar'] = []
+			senten['SimilarKeys'] = []
 			
-			obj = {'data': str(list(set(ne_tree_without_nnp)))}
-			dump = json.dumps(obj)
-			return HttpResponse(dump, content_type='application/json')
-		except:
-			error = traceback.format_exc()
-			obj = {'data': error}
-			dump = json.dumps(obj)
-			return HttpResponse(dump, content_type='application/json')
+			# without_nnp, ne_tree_without_nnp
+			dump.append(senten)
+		#dump = json.dumps(dump)
+		#print(' ')
+		#print('dump ')
+		#print(dump)
+		#dump = list(dump)
+		#print(type(dump))
+		#print(dump)
+		dataSimilar = dump
+		def check_similar(dump):
+			dataResponse = {}
+			c = 0
+			keysUsed = []
+			for i in dump:
+				c += 1
+				copyI = i.copy()
+				#if c == 40:	break
+				dataResponse[i["Id_URL"]] = copyI#hago una copia para que no se tome por referencia y me cague toda la compu
+				for e in dump:
+					if i['Id_URL'] != e['Id_URL']:#no hagas nada si sos el mismo que ayer
+						diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
+						if len(diferentKeys) > 2:
+							porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
+							if porcentaje > 30:
+								if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
+									#copyI["Similar"].append(e.copy())
+									copyI["SimilarKeys"].append(e["Id_URL"])
+									keysUsed.append(e["Id_URL"])
+									#print(copyI)
+									#print(' ')
+									#print(' ')
+									#print(' ')
+								#if c == 40: break
+								#if i["Id_URL"] in dataResponse:
+								#	dataResponse[i["Id_URL"]] = copyI
+			return dataResponse
+
+		#print(' ')
+		#print(' ')
+		#print('diump')
+		getdata = check_similar(dump)
+		#print(getdata)
+		#print('fim diump ')
+		responseDump = []	
+		for i in getdata:
+			responseDump.append(getdata[i])
+
+		
+		responseDump = str(responseDump)
+		print('FIN')
+		#responseDump = json.dumps(responseDump)
+
+		return HttpResponse(responseDump, content_type='application/json')
 
 
 class RakeTest(View):
