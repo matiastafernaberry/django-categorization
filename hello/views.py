@@ -405,6 +405,7 @@ class NameExtractClass(View):
 			senten['keys'] = list(set(ne_tree_without_nnp))
 			senten['Similar'] = []
 			senten['SimilarKeys'] = []
+			#senten['Percentage'] = []
 			
 			# without_nnp, ne_tree_without_nnp
 			dump.append(senten)
@@ -434,28 +435,37 @@ class NameExtractClass(View):
 								if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
 									#copyI["Similar"].append(e.copy())
 									copyI["SimilarKeys"].append(e["Id_URL"])
+									#copyI["Percentage"].append(porcentaje)
 									keysUsed.append(e["Id_URL"])
-									#print(copyI)
-									#print(' ')
-									#print(' ')
-									#print(' ')
-								#if c == 40: break
-								#if i["Id_URL"] in dataResponse:
-								#	dataResponse[i["Id_URL"]] = copyI
+									
 			return dataResponse
-
+		
 		#print(' ')
 		#print(' ')
 		#print('diump')
 		getdata = check_similar(dump)
-		#print(getdata)
+		
 		#print('fim diump ')
 		responseDump = []	
 		for i in getdata:
 			responseDump.append(getdata[i])
 
-		
-		responseDump = str(responseDump)
+		print(responseDump)
+		responseDump2 = []
+		c = 0
+		for i in responseDump:
+			print(' ')
+			print('iiii')
+			i['Headline'] = i['Headline'].replace('"', '')
+			i['Headline'] = i['Headline'].replace('“', '')
+			i['Headline'] = i['Headline'].replace('”', '')
+			i['Hit_Sentence'] = i['Hit_Sentence'].replace('"', '')
+			
+			#print(i['Headline'].replace('"', ''))
+			responseDump2.append(responseDump[c])
+			c += 1
+
+		responseDump = str(responseDump2)
 		print('FIN')
 		#responseDump = json.dumps(responseDump)
 
