@@ -405,6 +405,11 @@ class NameExtractClass(View):
 			senten['keys'] = list(set(ne_tree_without_nnp))
 			senten['Similar'] = []
 			senten['SimilarKeys'] = []
+			senten['SourceSimilar'] = []
+			senten['SharedCountSimilar'] = []
+			senten['ReachSimilar'] = []
+			senten['ShowItem'] = 'true'
+
 			#senten['Percentage'] = []
 			
 			# without_nnp, ne_tree_without_nnp
@@ -428,15 +433,26 @@ class NameExtractClass(View):
 				dataResponse[i["Id_URL"]] = copyI#hago una copia para que no se tome por referencia y me cague toda la compu
 				for e in dump:
 					if i['Id_URL'] != e['Id_URL']:#no hagas nada si sos el mismo que ayer
-						diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
-						if len(diferentKeys) > 2:
-							porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
-							if porcentaje > 30:
-								if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
-									#copyI["Similar"].append(e.copy())
-									copyI["SimilarKeys"].append(e["Id_URL"])
-									#copyI["Percentage"].append(porcentaje)
-									keysUsed.append(e["Id_URL"])
+						if True:
+							diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
+							if len(diferentKeys) >= 2:
+								porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
+								#print(' ')
+								#print(porcentaje)
+								#print(i["Id_URL"], e['Id_URL'])
+								if porcentaje > 10:
+									if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
+										#copyI["Similar"].append(e.copy())
+										copyI["SimilarKeys"].append(e["Id_URL"])
+
+										if e["Source"] not in copyI["SourceSimilar"]:
+											copyI["SourceSimilar"].append(e["Source"])
+										if len(copyI["SharedCountSimilar"]) == 0:
+											copyI["SharedCountSimilar"].append(i["Share_Count"] + e["Share_Count"])#Twitter_Social_Echo
+										else: copyI["SharedCountSimilar"].append(i["Share_Count"])
+										copyI["ReachSimilar"].append(e["Reach"])
+										#copyI["Percentage"].append(porcentaje)
+										keysUsed.append(e["Id_URL"])
 									
 			return dataResponse
 		
@@ -445,17 +461,16 @@ class NameExtractClass(View):
 		#print('diump')
 		getdata = check_similar(dump)
 		
-		#print('fim diump ')
+		#print(getdata)
 		responseDump = []	
 		for i in getdata:
 			responseDump.append(getdata[i])
 
-		print(responseDump)
+		#print(responseDump)
 		responseDump2 = []
 		c = 0
 		for i in responseDump:
-			print(' ')
-			print('iiii')
+			i['Opening_Text'] = i['Opening_Text'].replace('"', '')
 			i['Headline'] = i['Headline'].replace('"', '')
 			i['Headline'] = i['Headline'].replace('“', '')
 			i['Headline'] = i['Headline'].replace('”', '')
@@ -466,7 +481,7 @@ class NameExtractClass(View):
 			c += 1
 
 		responseDump = str(responseDump2)
-		print('FIN')
+		#print('FIN')
 		#responseDump = json.dumps(responseDump)
 
 		return HttpResponse(responseDump, content_type='application/json')
