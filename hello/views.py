@@ -320,7 +320,7 @@ class NameExtractClass(View):
 		dump = []
 		for senten in body_unicode:
 			#print('sentence')
-			print(senten)
+			#print(senten)
 			sentences = senten['Headline']
 			#print(' ')
 			l = []
@@ -462,8 +462,10 @@ class NameExtractClass(View):
 		#print(' ')
 		print('dump')
 		getdata = check_similar(dump)
-		
-		#print(getdata)
+		print(' ')
+		print(' ')
+		print('     getdata     ')
+		print(getdata)
 		responseDump = []	
 		for i in getdata:
 			responseDump.append(getdata[i])
