@@ -304,7 +304,7 @@ class NameExtractClass(View):
 		#print(' ')
 		body_unicode = request.body.decode('utf-8')
 		body_unicode = json.loads(body_unicode)
-		#print(body_unicode[0]['Headline'])
+		print(body_unicode[0]['Headline'])
 		#print(type(body_unicode))
 		#print(' ')
 		#body = json.loads(body_unicode)
@@ -320,7 +320,7 @@ class NameExtractClass(View):
 		dump = []
 		for senten in body_unicode:
 			#print('sentence')
-			#print(senten)
+			print(senten)
 			sentences = senten['Headline']
 			#print(' ')
 			l = []
@@ -460,7 +460,7 @@ class NameExtractClass(View):
 		
 		#print(' ')
 		#print(' ')
-		#print('diump')
+		print('dump')
 		getdata = check_similar(dump)
 		
 		#print(getdata)
