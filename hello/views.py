@@ -437,7 +437,7 @@ class NameExtractClass(View):
 							diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
 							if len(diferentKeys) > 1:
 								porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
-								print(' ')
+								#print(' ')
 								#print(porcentaje)
 								#print(i["Id_URL"], e['Id_URL'])
 								if porcentaje > 20:
