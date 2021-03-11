@@ -408,7 +408,7 @@ class NameExtractClass(View):
 			senten['SourceSimilar'] = []
 			senten['SharedCountSimilar'] = []
 			senten['ReachSimilar'] = []
-			senten['ShowItem'] = 'false'
+			senten['ShowItem'] = 'true'
 
 			#senten['Percentage'] = []
 			
