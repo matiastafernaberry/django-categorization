@@ -443,7 +443,7 @@ class NameExtractClass(View):
 								#print(i["Id_URL"], e['Id_URL'])
 								if porcentaje > 20:
 									#print(i["Id_URL"], e['Id_URL'])
-									if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
+									if (e["Id_URL"] not in copyI["SimilarKeys"]) and (e["Id_URL"] not in keysUsed):
 										#print(i["Id_URL"], e['Id_URL'])
 										#copyI["Similar"].append(e.copy())
 										copyI["SimilarKeys"].append(e["Id_URL"])
@@ -457,6 +457,8 @@ class NameExtractClass(View):
 										copyI["ReachSimilar"].append(e["Reach"])
 										#copyI["Percentage"].append(porcentaje)
 										keysUsed.append(e["Id_URL"])
+										keysUsed.append(i["Id_URL"])
+
 									
 			return dataResponse
 		
