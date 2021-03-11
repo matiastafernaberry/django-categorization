@@ -449,6 +449,8 @@ class NameExtractClass(View):
 										copyI["SimilarKeys"].append(e["Id_URL"])
 										if i["Source"] not in copyI["SourceSimilar"]:
 											copyI["SourceSimilar"].append(i["Source"])
+										if e["Source"] not in copyI["SourceSimilar"]:
+											copyI["SourceSimilar"].append(e["Source"])
 										if len(copyI["SharedCountSimilar"]) == 0:
 											copyI["SharedCountSimilar"].append(i["Share_Count"] + e["Share_Count"])#Twitter_Social_Echo
 										else: copyI["SharedCountSimilar"].append(i["Share_Count"])
