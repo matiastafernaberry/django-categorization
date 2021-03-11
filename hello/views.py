@@ -403,7 +403,7 @@ class NameExtractClass(View):
 				else: l.append(y)
 				
 			senten['keys'] = list(set(ne_tree_without_nnp))
-			senten['Similar'] = []
+			#senten['Similar'] = []
 			senten['SimilarKeys'] = []
 			senten['SourceSimilar'] = []
 			senten['SharedCountSimilar'] = []
