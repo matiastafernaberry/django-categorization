@@ -446,9 +446,6 @@ class NameExtractClass(View):
 										#print(i["Id_URL"], e['Id_URL'])
 										#copyI["Similar"].append(e.copy())
 										copyI["SimilarKeys"].append(e["Id_URL"])
-
-										if e["Source"] not in copyI["SourceSimilar"]:
-											copyI["SourceSimilar"].append(e["Source"])
 										if i["Source"] not in copyI["SourceSimilar"]:
 											copyI["SourceSimilar"].append(i["Source"])
 										if len(copyI["SharedCountSimilar"]) == 0:
