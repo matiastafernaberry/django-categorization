@@ -437,9 +437,9 @@ class NameExtractClass(View):
 							diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
 							if len(diferentKeys) > 1:
 								porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
-								#print(' ')
-								#print(porcentaje)
-								#print(i["Id_URL"], e['Id_URL'])
+								print(' ')
+								print(porcentaje)
+								print(i["Id_URL"], e['Id_URL'])
 								if porcentaje > 10:
 									if e["Id_URL"] not in copyI["SimilarKeys"] and (e["Id_URL"] not in keysUsed):
 										#copyI["Similar"].append(e.copy())
@@ -465,7 +465,7 @@ class NameExtractClass(View):
 		print(' ')
 		print(' ')
 		print('     getdata     ')
-		print(getdata)
+		#print(getdata)
 		responseDump = []	
 		for i in getdata:
 			responseDump.append(getdata[i])
