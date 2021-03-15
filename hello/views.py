@@ -322,7 +322,7 @@ class NameExtractClass(View):
 		for senten in body_unicode:
 			#print('sentence')
 			#print(senten)
-			sentences = senten['Headline']
+			sentences = senten['Headline'] #+ ' ,' + senten['Opening_Text']
 			#print(' ')
 			l = []
 			toktok = ToktokTokenizer()
@@ -441,9 +441,9 @@ class NameExtractClass(View):
 								#print(' ')
 								#print(porcentaje)
 								#print(i["Id_URL"], e['Id_URL'])
-								if porcentaje > 20:
+								if porcentaje > 10:
 									#print(i["Id_URL"], e['Id_URL'])
-									if (e["Id_URL"] not in copyI["SimilarKeys"]) and (e["Id_URL"] not in keysUsed):
+									if (e["Id_URL"] not in keysUsed) and (e["Id_URL"] not in copyI["SimilarKeys"]):
 										#print(i["Id_URL"], e['Id_URL'])
 										#copyI["Similar"].append(e.copy())
 										copyI["SimilarKeys"].append(e["Id_URL"])
