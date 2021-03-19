@@ -506,6 +506,17 @@ class NameExtractClass(View):
 		return HttpResponse(responseDump, content_type='application/json')
 
 
+
+class BuzzTrackerJsonClass(View):
+	"""docstring for MainClass"""
+	def get(self, request):
+		with open('tmp/19032021.json') as json_file:
+			data = json.load(json_file)
+			print(data)
+		dump = json.dumps(data)
+		return HttpResponse(dump, content_type='application/json')
+
+
 class BuzzTrackerClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
