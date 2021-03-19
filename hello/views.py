@@ -9,6 +9,8 @@ import traceback
 import six
 import operator
 import RAKE
+import jinja2
+import csv
 
 from nltk import sent_tokenize, ne_chunk, pos_tag, word_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -24,10 +26,19 @@ from django.http import JsonResponse
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 
 #from .models import Greeting
 from django.conf import settings
+
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__).replace("views","")),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True,
+)
 
 # Create your views here.
 class MainClass(View):
@@ -493,6 +504,47 @@ class NameExtractClass(View):
 		#responseDump = json.dumps(responseDump)
 
 		return HttpResponse(responseDump, content_type='application/json')
+
+
+class BuzzTrackerClass(View):
+	"""docstring for MainClass"""
+	def get(self, request):
+		return TemplateResponse(request, 'buzztracker.html', {})
+
+	def post(self, request):
+		if 'myfile' in self.request.FILES:
+			data = self.request.FILES['myfile']
+			name_file = self.request.POST['mytext']
+			name_file = 'tmp/' + name_file + '.csv'
+			jsonFilePath = 'tmp/' + self.request.POST['mytext'] + '.json'
+			path = default_storage.save(name_file, ContentFile(data.read()))
+			tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+			data = {}
+			with open(name_file, encoding='utf-8', errors='ignore') as csv_file: #, 'rb'
+				#contents = csv_file.read()
+				csv_reader = csv.DictReader(x.replace('\0', '') for x in csv_file)
+				#print(type(contents.decode(encoding="utf-8")))
+				#csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter=',')
+
+				#csv_reader = csv.reader(csv_file, delimiter=',')
+				#line_count = 0
+				print(csv_reader)
+				#print(next(csv_reader)) 
+				for row in csv_reader:
+					key = row['URL']
+					data[key] = row
+			with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
+				jsonf.write(json.dumps(data, indent=4))
+			#with open(tmp_file, newline='') as csvfile:
+			#	reader = csv.reader(csvfile)
+			#	for row in reader:
+			#		print(row)
+			#		context["csv_rows"].append(" ".join(row))
+			
+
+		template_values = {"mensage": "archivo subido correctamente"}
+		response = TemplateResponse(request, 'buzztracker.html', template_values)
+		return response
 
 
 class RakeTest(View):

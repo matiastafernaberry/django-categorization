@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+{% block body %}
+  <!-- Page Content -->
+  {% autoescape on %}
+  <div class="container">
+      <div class="row description">
+        <div class="col-sm-3">&nbsp;</div>
+        <div class="col-sm-6">
+          <p><h3>Suba un archivo csv.</h3></p>
+        </div>
+        <div class="col-sm-3">&nbsp;</div>
+      </div>
+  </div>
+  <div>
+    <div id="main" class="site-main">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">&nbsp;</div>
+          <div class="formulario col-sm-6">
+            <form action="/buzztracker/" method="post" id="remember" enctype="multipart/form-data">
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              <div class="form-group">
+              <input type="file" id="myfile" name="myfile">
+              <input type="text" id="mytext" name="mytext">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+        </div>
+        <div class="col-sm-3">&nbsp;</div>
+      </div>
+    </div>
+    
+  </div>
+  
+    <div class="container">
+      <div class="row ">
+        <div class="col-sm-2">&nbsp;</div>
+        <div class="col-sm-8 comentarios"> 
+          dsd
+          {{ mensaje }} 
+        </div>
+        <div class="col-sm-2">&nbsp;</div>
+      </div>
+    </div>
+{% endautoescape %}
+  
+{% endblock %}  
+{% endblock %}  
+
