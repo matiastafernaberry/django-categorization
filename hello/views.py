@@ -512,7 +512,7 @@ class BuzzTrackerJsonClass(View):
 	def get(self, request):
 		with open('tmp/19032021.json') as json_file:
 			data = json.load(json_file)
-			print(data)
+			#print(data)
 		dump = json.dumps(data)
 		return HttpResponse(dump, content_type='application/json')
 
@@ -539,7 +539,7 @@ class BuzzTrackerClass(View):
 
 				#csv_reader = csv.reader(csv_file, delimiter=',')
 				#line_count = 0
-				print(csv_reader)
+				#print(csv_reader)
 				#print(next(csv_reader)) 
 				for row in csv_reader:
 					key = row['URL']

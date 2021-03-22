@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "hello",
+    #"django_extensions",
+    "sslserver"
 ]
 
 MIDDLEWARE = [
