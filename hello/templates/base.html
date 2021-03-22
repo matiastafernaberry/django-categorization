@@ -27,31 +27,22 @@
     <title>Eyewatch</title>
 
     <!-- Custom CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Dosis|Long+Cang&amp;display=swap" rel="stylesheet">
     
-    
-    <link href="https://fonts.googleapis.com/css?family=Turret+Road&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Asap&display=swap" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     {% load static %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-    <link link rel=stylesheet href="/css/bootstrap.css" type=text/css>
-    <link href="https://fonts.googleapis.com/css?family=Economica|Kite+One|Open+Sans+Condensed:300|Orbitron" rel="stylesheet">
+    <link link rel=stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" type=text/css>
+    
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-
-   <base href="/" target="_self">
+    <base href="/" target="_self">
 </head>
 <!-- Navigation -->
 <body>     
     <div id="page" class="hfeed site">
         {% include "menu.html" %}
         {% block body %}
-
         {% endblock %}
     </div>
-  
 </body>
 </html>
