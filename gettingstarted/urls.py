@@ -24,6 +24,7 @@ urlpatterns = [
     path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
     path("buzztracker/", csrf_exempt(BuzzTrackerClass.as_view())),
     path("buzztrackerjson/", csrf_exempt(BuzzTrackerJsonClass.as_view())),
+    path("buzztrackerjson/<int:file_id>/", csrf_exempt(BuzzTrackerJsonClass.as_view())),
     path("rake/", csrf_exempt(RakeTest.as_view())),
     path("admin/", admin.site.urls),
 ]

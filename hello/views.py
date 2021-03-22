@@ -509,8 +509,8 @@ class NameExtractClass(View):
 
 class BuzzTrackerJsonClass(View):
 	"""docstring for MainClass"""
-	def get(self, request):
-		with open('tmp/19032021.json') as json_file:
+	def get(self, request, file_id):
+		with open('tmp/'+str(file_id)+'.json') as json_file:
 			data = json.load(json_file)
 			#print(data)
 		dump = json.dumps(data)
