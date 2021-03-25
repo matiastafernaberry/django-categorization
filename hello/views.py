@@ -532,12 +532,12 @@ class BuzzTrackerClass(View):
 			tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 			data = {}
 			with open(name_file, encoding='utf-8', errors='ignore') as csv_file: #, 'rb'
-				contents = csv_file.read()
+				#contents = csv_file.read()
 				#csv_reader = csv.DictReader(x.replace('\0', '') for x in csv_file)
-				#print(type(contents.decode(encoding="utf-8")))
-				#csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter=',')
+				#print(type(contents.decode(encoding="utf-8")));;;;;;;;;;;;;;;;;;;;
+				csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter=';')
 
-				csv_reader = csv.reader(csv_file, delimiter=',')
+				#csv_reader = csv.reader(csv_file, delimiter=',')
 				#line_count = 0
 				#print(csv_reader)
 				#print(next(csv_reader)) 
