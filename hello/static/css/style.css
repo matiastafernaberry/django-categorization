@@ -102,5 +102,5 @@ a{
 }
 .description{
   font-size: 3rem;
-  height: 5rem;
+  height: auto;
 }
