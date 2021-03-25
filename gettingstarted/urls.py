@@ -25,6 +25,7 @@ urlpatterns = [
     path("buzztracker/", csrf_exempt(BuzzTrackerClass.as_view())),
     path("buzztrackerjson/", csrf_exempt(BuzzTrackerJsonClass.as_view())),
     path("buzztrackerjson/<int:file_id>/", csrf_exempt(BuzzTrackerJsonClass.as_view())),
+    path(".well-known/pki-validation/3B7A9D37194721F16B7EB9BDC026D751.txt", TemplateView.as_view(template_name='3055F8E464FD7CF2D51499F97436A2A3.txt',content_type='text/plain')),
     path("rake/", csrf_exempt(RakeTest.as_view())),
     path("admin/", admin.site.urls),
 ]
