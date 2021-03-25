@@ -7,7 +7,8 @@
       <div class="row description">
         <div class="col-sm-3">&nbsp;</div>
         <div class="col-sm-6">
-          <p><h3>Suba un archivo csv.</h3></p>
+          <p><h3>Suba un archivo csv con los siguientes campos obligatorios: Twitter Followers, User Profile Url, Twitter Bio, Twitter Followers, Hit Sentence, URL, Twitter Screen Name, Influencer, Date.<br><br>
+          Separado por tabuladores</h3></p>
         </div>
         <div class="col-sm-3">&nbsp;</div>
       </div>
@@ -36,6 +37,17 @@
         </div>
         <div class="col-sm-3">&nbsp;</div>
       </div>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <ul id="navigation">
+            {% for item in files %}
+                <li><a href="/static/files/{{ item }}">{{ item }}</a></li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
     </div>
     
   </div>

@@ -29,6 +29,9 @@ from django.views import View
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
+from os import listdir
+from os.path import isfile, join
+
 
 #from .models import Greeting
 from django.conf import settings
@@ -510,7 +513,7 @@ class NameExtractClass(View):
 class BuzzTrackerJsonClass(View):
 	"""docstring for MainClass"""
 	def get(self, request, file_id):
-		with open('tmp/'+str(file_id)+'.json') as json_file:
+		with open('hello/static/files/'+str(file_id)+'.json') as json_file:
 			data = json.load(json_file)
 			#print(data)
 		dump = json.dumps(data)
@@ -520,14 +523,21 @@ class BuzzTrackerJsonClass(View):
 class BuzzTrackerClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
-		return TemplateResponse(request, 'buzztracker.html', {})
+		
+		#mypath = os.path.dirname(__file__).replace("views","").replace("hello","tmp")
+		mypath = "hello/static/files/"
+		#print(mypath)
+		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+		#print(onlyfiles)
+		onlyfiles.reverse()
+		return TemplateResponse(request, 'buzztracker.html', {'files': onlyfiles})
 
 	def post(self, request):
 		if 'myfile' in self.request.FILES:
 			data = self.request.FILES['myfile']
 			name_file = self.request.POST['mytext']
-			name_file = 'tmp/' + name_file + '.csv'
-			jsonFilePath = 'tmp/' + self.request.POST['mytext'] + '.json'
+			name_file = 'hello/static/files/' + name_file + '.csv'
+			jsonFilePath = 'hello/static/files/' + self.request.POST['mytext'] + '.json'
 			path = default_storage.save(name_file, ContentFile(data.read()))
 			tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 			data = {}
@@ -535,14 +545,14 @@ class BuzzTrackerClass(View):
 				#contents = csv_file.read()
 				#csv_reader = csv.DictReader(x.replace('\0', '') for x in csv_file)
 				#print(type(contents.decode(encoding="utf-8")));;;;;;;;;;;;;;;;;;;;
-				csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter=';')
+				csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter='\t')
 
 				#csv_reader = csv.reader(csv_file, delimiter=',')
 				#line_count = 0
 				#print(csv_reader)
 				#print(next(csv_reader)) 
 				for row in csv_reader:
-					print(row)
+					#print(row)
 					key = row['URL']
 					data[key] = row
 			with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
@@ -554,9 +564,10 @@ class BuzzTrackerClass(View):
 			#		context["csv_rows"].append(" ".join(row))
 			
 
-		template_values = {"mensage": "archivo subido correctamente"}
-		response = TemplateResponse(request, 'buzztracker.html', template_values)
-		return response
+		mypath = "hello/static/files/"
+		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+		onlyfiles.reverse()
+		return TemplateResponse(request, 'buzztracker.html', {'files': onlyfiles})
 
 
 class RakeTest(View):
