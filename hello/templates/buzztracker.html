@@ -10,6 +10,7 @@
           Suba un archivo csv con los siguientes campos obligatorios: Date, URL, Hit Sentence, 
           Source, Influencer, Twitter Screen Name,  User Profile Url, Twitter Bio, Twitter Followers, Twitter Followers.<br><br>
           Separado por tabuladores.
+          <p>&nbsp;</p>
         </div>
         <div class="col-sm-3">&nbsp;</div>
       </div>
@@ -45,9 +46,9 @@
           <div class="col-sm-6">
             
             {% for item in files %}
-                <p id="navigation">
+                <div id="navigation">
                   <a href="/static/files/{{ item }}">{{ item }}</a>
-                </p>
+                </div>
             {% endfor %}
             </p>
           </div>
