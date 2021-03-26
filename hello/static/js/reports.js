@@ -1,7 +1,7 @@
 <script>
 function numberWithCommas(x) {
     x = "" + x;
-   	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 var img = document.createElement('img');
 img.setAttribute("id", "img-load-tracker");
@@ -42,29 +42,29 @@ function onClickFunction(id){
         divcontainer.setAttribute("class", "div-modal-container");
         var div = document.createElement('div');
         div.setAttribute("class", "div-inside-modal-left");
-       	var link = document.createElement('a');
+        var link = document.createElement('a');
         link.setAttribute("target", "_blank");
-       	link.setAttribute("href", datos[property]["User Profile Url"]);
+        link.setAttribute("href", datos[property]["User Profile Url"]);
         link.innerHTML += datos[property]['Influencer'];//Twitter Bio, Twitter Followers
         div.appendChild(link);
-       	var div2 = document.createElement('div');
-       	div2.innerHTML += datos[property]['Twitter Bio'];//Twitter Bio, Twitter Followers
-       	div2.setAttribute("class", "div-inside-modal-center");
+        var div2 = document.createElement('div');
+        div2.innerHTML += datos[property]['Twitter Bio'];//Twitter Bio, Twitter Followers
+        div2.setAttribute("class", "div-inside-modal-center");
         var div3 = document.createElement('div');
         if (datos[property]['Source'] == "Twitter"){
-       		div3.innerHTML += numberWithCommas(datos[property]['Twitter Followers']);//Twitter Bio, Twitter Followers
+          div3.innerHTML += numberWithCommas(datos[property]['Twitter Followers']);//Twitter Bio, Twitter Followers
         } 
         if (datos[property]['Source'] == "Facebook"){
-       		div3.innerHTML += numberWithCommas(datos[property]['Reach']);//Twitter Bio, Twitter Followers
+          div3.innerHTML += numberWithCommas(datos[property]['Reach']);//Twitter Bio, Twitter Followers
         } 
-       	div3.setAttribute("class", "div-inside-modal-right");
+        div3.setAttribute("class", "div-inside-modal-right");
        
-       	divcontainer.appendChild(div);
-       	divcontainer.appendChild(div2);
+        divcontainer.appendChild(div);
+        divcontainer.appendChild(div2);
         divcontainer.appendChild(div3);
-       	divv.appendChild(divcontainer);
+        divv.appendChild(divcontainer);
    }
-	var div4 = document.createElement('div');
+  var div4 = document.createElement('div');
    div4.setAttribute("class", "div-inside-modal-close");
    div4.innerHTML += "x  ";
    div4.setAttribute("onclick", "closeModal()");
@@ -76,13 +76,13 @@ jQuery(document).ready(function() {
     var namFile = document.getElementById("div-data-buzztrackerjson");
     namFile = namFile.getAttribute('class');
     var request = jQuery.ajax({
-  		method: "GET",
-  		url: "https://ec2-52-38-13-82.us-west-2.compute.amazonaws.com:5000/buzztrackerjson/"+namFile+"/",
-  		dataType: "json"
-	});
+      method: "GET",
+      url: "https://ec2-52-38-13-82.us-west-2.compute.amazonaws.com:5000/buzztrackerjson/"+namFile+"/",
+      dataType: "json"
+  });
     
     request.done(function( msg ) {
-        //console.log(msg);
+        console.log(msg);
         document.getElementById("img-load-tracker").style.display = "none";
         var listRt = [];
         var data = {};
@@ -97,17 +97,17 @@ jQuery(document).ready(function() {
             } else {
                 data[msg[property]["Hit Sentence"]]["Similar"].push(msg[property]);
                 data[msg[property]["Hit Sentence"]]["SimilarCant"] += 1;
-        	}    
+          }    
         }  
-        //console.log("arrayData");
-        //console.log(data);
+        console.log("data");
+        console.log(data);
+        console.log("arraydata");
+        console.log(arrayData);
         window.dataReport = data; 
         var byCont = arrayData.slice(0);
-        byCont.sort(function(a,b) {
-            return b.SimilarCant - a.SimilarCant;
-        });
+        
         console.log("consola loco");
-        //console.log(byCont);
+        console.log(byCont);
         //console.log(window.dataReport);
         for (i = 0; i < byCont.length; i++) {
             var sentence = byCont[i]["Hit Sentence"];
@@ -120,17 +120,35 @@ jQuery(document).ready(function() {
                 //console.log(sentence);
                 var similar =  byCont[i]["Similar"];
                 var similarCant =  byCont[i]["SimilarCant"];
-                //console.log(stringSearch);
+                
                 //console.log(window.dataReport[stringSearch]);
                 if (stringSearch in window.dataReport){
-                    byCont[i] = window.dataReport[stringSearch];
-                    byCont[i]["Similar"] = similar;
-                    byCont[i]["SimilarCant"] = similarCant;
-            	}    
+                    console.log(stringSearch);
+                    console.log(byCont[i]);
+                    for (e = 0; e < byCont.length; e++) {
+                        var sentence2 = byCont[e]["Hit Sentence"];
+                        if (stringSearch == sentence2){
+                            byCont[i]["Similar"] = [];
+                        byCont[i]["SimilarCant"] = 0;
+                            let copy = Object.assign({}, byCont[i]);
+                            similar.push(copy);
+                          byCont[e]["Similar"] = similar;
+                        byCont[e]["SimilarCant"] = similarCant + 1;
+                            byCont.splice(i, 1); 
+                            break;
+                      }        
+                    }
+                    //byCont[i] = window.dataReport[stringSearch];
+                    //byCont[i]["Similar"] = similar;
+                    //byCont[i]["SimilarCant"] = similarCant;
+              }    
             }
         }   
+        byCont.sort(function(a,b) {
+            return b.SimilarCant - a.SimilarCant;
+        });
         var colors = ['rgb(237,216,18,0.6)','rgb(237,216,18,0.4)','rgb(237,216,18,0.2)','rgb(237,216,18,0.1)'];
-  		for (const property in byCont) {
+      for (const property in byCont) {
             //console.log(property);
             var str = byCont[property]["URL"];
             if (str.includes("http") || str.includes("https")){
@@ -155,7 +173,7 @@ jQuery(document).ready(function() {
                 }
                 if (!["Twitter","Facebook"].includes(byCont[property]["Source"])){
                     img = document.createElement('div');
-                	img.setAttribute("class", "img-tracker");
+                  img.setAttribute("class", "img-tracker");
                     img.innerHTML += byCont[property]["Source"];
                 }
                 link.setAttribute("href", byCont[property]["User Profile Url"]);
@@ -178,7 +196,7 @@ jQuery(document).ready(function() {
                 p3.style.padding = "0px 0px 0px 0px";
                 var div2 = document.createElement('div');
                 if (str.includes("twitter")){
-                	div2.innerHTML += byCont[property]["SimilarCant"] + " RT";
+                  div2.innerHTML += byCont[property]["SimilarCant"] + " RT";
                 } else {
                     div2.innerHTML += byCont[property]["SimilarCant"] + " Share";
                 }
@@ -206,7 +224,7 @@ jQuery(document).ready(function() {
                 link3.setAttribute("onclick", "onClickFunction("+"'"+hit+"'"+")");
                 if (byCont[property]["SimilarCant"] > 0){
                     link3.setAttribute("title", "Haga click!");
-                	link3.innerHTML += "+  ";
+                  link3.innerHTML += "+  ";
                 }
                 var div4 = document.createElement('div');
                 div4.setAttribute("class", "followers");
@@ -226,8 +244,8 @@ jQuery(document).ready(function() {
                 
                 document.getElementById("div-data-buzztrackerjson").appendChild(div);
             }
-  			//console.log(`${property}: ${msg[property]}`);
-		}
+        //console.log(`${property}: ${msg[property]}`);
+    }
         var divInput = document.createElement('div');
         divInput.setAttribute("class", "div-input");
         var input = document.createElement('input');
@@ -236,12 +254,12 @@ jQuery(document).ready(function() {
         input.setAttribute("placeholder", "Buscar");
         divInput.appendChild(input);
         document.getElementById("div-data-buzztrackerjson").parentNode.insertBefore(divInput, document.getElementById("div-data-buzztrackerjson"));
-	});
+  });
     request.fail(function( jqXHR, textStatus ) {
-  		document.getElementById("div-data-buzztrackerjson").innerHTML += textStatus;
+      document.getElementById("div-data-buzztrackerjson").innerHTML += textStatus;
         document.getElementById("div-data-buzztrackerjson").innerHTML += jqXHR.responseText;
         console.log(jqXHR.responseText);
-	});
+  });
     
     
     
