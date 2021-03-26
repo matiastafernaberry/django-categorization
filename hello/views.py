@@ -529,7 +529,7 @@ class BuzzTrackerClass(View):
 		#print(mypath)
 		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 		#print(onlyfiles)
-		onlyfiles.reverse()
+		#onlyfiles.reverse()
 		return TemplateResponse(request, 'buzztracker.html', {'files': onlyfiles})
 
 	def post(self, request):
