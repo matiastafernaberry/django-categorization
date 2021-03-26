@@ -4,14 +4,14 @@ body{
   background-color: #fff;
   font-size: 14px;}
 img{
-  max-width: 80%;
+  /*max-width: 80%;
   min-width: 80%;
 
   -webkit-filter: drop-shadow(8px 8px 10px gray); /* Safari 6.0 - 9.0 */
-  filter: drop-shadow(8px 8px 10px gray);
+  /*filter: drop-shadow(8px 8px 10px gray);
 
   -webkit-filter: sepia(10%) grayscale(10%) brightness(110%) contrast(110%);  /* Safari */
-  filter: sepia(10%) grayscale(10%) brightness(110%) contrast(110%);
+  /*filter: sepia(10%) grayscale(10%) brightness(110%) contrast(110%);
   
 
   -webkit-box-shadow: 22px 27px 61px -21px rgba(70, 55, 11, 0.85);
@@ -19,8 +19,14 @@ img{
   box-shadow: 22px 27px 61px -21px rgba(70, 55, 11, 0.85);
 
   -ms-transform: skewY(20deg); /* IE 9 */
-  -webkit-transform: skewY(-10deg); /* Safari 3-8 */
-  transform: skewY(-5deg);
+  /*-webkit-transform: skewY(-10deg); /* Safari 3-8 */
+  /*transform: skewY(-5deg);*/
+      background-color: black;
+    /* transform: skewY(
+-5deg
+); */
+    width: 39%;
+    border-radius: 50px;
 }
 img:hover{
   transform: skewY(0deg);
@@ -103,4 +109,7 @@ a{
 .description{
   font-size: 3rem;
   height: auto;
+}
+.buzztracker{
+  font-size: 16px;
 }

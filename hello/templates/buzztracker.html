@@ -6,9 +6,10 @@
   <div class="container">
       <div class="row description">
         <div class="col-sm-3">&nbsp;</div>
-        <div class="col-sm-6">
-          <p><h3>Suba un archivo csv con los siguientes campos obligatorios: Twitter Followers, User Profile Url, Twitter Bio, Twitter Followers, Hit Sentence, URL, Twitter Screen Name, Influencer, Date.<br><br>
-          Separado por tabuladores</h3></p>
+        <div class="col-sm-6 buzztracker">
+          Suba un archivo csv con los siguientes campos obligatorios: Date, URL, Hit Sentence, 
+          Source, Influencer, Twitter Screen Name,  User Profile Url, Twitter Bio, Twitter Followers, Twitter Followers.<br><br>
+          Separado por tabuladores.
         </div>
         <div class="col-sm-3">&nbsp;</div>
       </div>
@@ -40,17 +41,20 @@
     </div>
     <div class="container">
         <div class="row">
-          <div class="col-sm-12">
-            <ul id="navigation">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            
             {% for item in files %}
-                <li><a href="/static/files/{{ item }}">{{ item }}</a></li>
+                <p id="navigation">
+                  <a href="/static/files/{{ item }}">{{ item }}</a>
+                </p>
             {% endfor %}
-            </ul>
+            </p>
           </div>
+          <div class="col-sm-3"></div>
         </div>
     </div>
-    
-  </div>
+  
   
     <div class="container">
       <div class="row ">
