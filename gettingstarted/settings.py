@@ -17,7 +17,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -59,8 +58,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'https://reports.eyewatch.me/',
-    'https://reports.eyewatch.me/latamuy/',
+    #'https://reports.eyewatch.me/',
+    #'https://reports.eyewatch.me/latamuy/',
     'http://127.0.0.1:8000',
     'https://d0cad94259c9.ngrok.io',
     'http://d0cad94259c9.ngrok.io'
