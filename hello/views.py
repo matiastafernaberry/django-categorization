@@ -527,10 +527,15 @@ class BuzzTrackerClass(View):
 		#mypath = os.path.dirname(__file__).replace("views","").replace("hello","tmp")
 		mypath = "hello/static/files/"
 		#print(mypath)
-		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-		#print(onlyfiles)
-		#onlyfiles.reverse()
-		return TemplateResponse(request, 'buzztracker.html', {'files': onlyfiles})
+		import glob
+		#paths = sorted(Path(mypath).iterdir(), key=os.path.getmtime)
+		#onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+		files = list(filter(os.path.isfile, glob.glob(mypath + "*")))
+		files.sort(key=lambda x: os.path.getmtime(x))
+		print(files)
+		files.reverse()
+		#onlyfiles.sort(key=os.path.getctime)
+		return TemplateResponse(request, 'buzztracker.html', {'files': files})
 
 	def post(self, request):
 		if 'myfile' in self.request.FILES:
