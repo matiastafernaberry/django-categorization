@@ -534,8 +534,11 @@ class BuzzTrackerClass(View):
 		files.sort(key=lambda x: os.path.getmtime(x))
 		print(files)
 		files.reverse()
+		fil = []
+		for i in files:
+			fil.append(i.replace('hello/static/files/', ''))
 		#onlyfiles.sort(key=os.path.getctime)
-		return TemplateResponse(request, 'buzztracker.html', {'files': files})
+		return TemplateResponse(request, 'buzztracker.html', {'files': fil})
 
 	def post(self, request):
 		if 'myfile' in self.request.FILES:
