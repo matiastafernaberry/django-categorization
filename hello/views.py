@@ -28,6 +28,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 
 from os import listdir
 from os.path import isfile, join
@@ -576,6 +577,31 @@ class BuzzTrackerClass(View):
 		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 		onlyfiles.reverse()
 		return TemplateResponse(request, 'buzztracker.html', {'files': onlyfiles})
+
+
+class FileClass(View):
+	"""docstring for MainClass"""
+	def get(self, request):
+		mypath = "hello/static/sfiles/"
+		import glob
+		files = list(filter(os.path.isfile, glob.glob(mypath + "*")))
+		files.sort(key=lambda x: os.path.getmtime(x))
+		print(files)
+		files.reverse()
+		fil = []
+		for i in files:
+			fil.append(i.replace('hello/static/sfiles/', ''))
+		return TemplateResponse(request, 'files.html', {'files': fil})
+
+	def post(self, request):
+		if 'myfile' in self.request.FILES:
+			data = self.request.FILES['myfile']
+			fs = FileSystemStorage()
+			filename = fs.save(str(data), data)
+			uploaded_file_url = fs.url(filename)
+			
+			
+		return TemplateResponse(request, 'files.html', {'files': uploaded_file_url})
 
 
 class RakeTest(View):

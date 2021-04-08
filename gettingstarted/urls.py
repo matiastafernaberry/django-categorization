@@ -19,7 +19,8 @@ from hello.views import *
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-	path("", csrf_exempt(MainClass.as_view())),
+	#path("", csrf_exempt(MainClass.as_view())),
+	path("", csrf_exempt(FileClass.as_view())),
     path("keywordextract/", csrf_exempt(NameExtractClass.as_view())),
     path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
     path("buzztracker/", csrf_exempt(BuzzTrackerClass.as_view())),
