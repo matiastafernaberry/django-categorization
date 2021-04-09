@@ -554,16 +554,20 @@ class BuzzTrackerClass(View):
 				#contents = csv_file.read()
 				#csv_reader = csv.DictReader(x.replace('\0', '') for x in csv_file)
 				#print(type(contents.decode(encoding="utf-8")));;;;;;;;;;;;;;;;;;;;
-				csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter='\t')
+				try:
+					csv_reader = csv.DictReader((x.replace('\0', '') for x in csv_file), delimiter='\t')
+					#csv_reader = csv.reader(csv_file, delimiter=',')
+					for row in csv_reader:
+						#print(row)
+						key = row['URL']
+						data[key] = row
+				except KeyError:
+					print(traceback.format_exc())
+					return TemplateResponse(request, 'buzztracker.html', {'error': 'Debe guardar el csv separado por tabuladores, y no por ; o ,'})
+				except:
+					print(traceback.format_exc())
+					return TemplateResponse(request, 'buzztracker.html', {'error': 'error desconocido'})
 
-				#csv_reader = csv.reader(csv_file, delimiter=',')
-				#line_count = 0
-				#print(csv_reader)
-				#print(next(csv_reader)) 
-				for row in csv_reader:
-					#print(row)
-					key = row['URL']
-					data[key] = row
 			with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
 				jsonf.write(json.dumps(data, indent=4))
 			#with open(tmp_file, newline='') as csvfile:
