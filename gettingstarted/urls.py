@@ -7,7 +7,9 @@ from django.views.generic import TemplateView
 admin.autodiscover()
 
 import hello.views
+import hello.byg
 from hello.views import *
+from hello.byg import *
 
 
 # To add a new path, first import the app:
@@ -21,6 +23,7 @@ from hello.views import *
 urlpatterns = [
 	#path("", csrf_exempt(MainClass.as_view())),
 	path("", csrf_exempt(FileClass.as_view())),
+    path("bg-documents-sharedcount/", csrf_exempt(ApiGetDocumentsSharedCount7Class.as_view())),
     path("keywordextract/", csrf_exempt(NameExtractClass.as_view())),
     path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
     path("buzztracker/", csrf_exempt(BuzzTrackerClass.as_view())),

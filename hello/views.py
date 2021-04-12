@@ -425,6 +425,7 @@ class NameExtractClass(View):
 			senten['SharedCountSimilar'] = []
 			senten['ReachSimilar'] = []
 			senten['ShowItem'] = 'true'
+			senten['SimilarCant'] = 0
 
 			#senten['Percentage'] = []
 			
@@ -448,7 +449,7 @@ class NameExtractClass(View):
 				#if c == 40:	break
 				dataResponse[i["Id_URL"]] = copyI#hago una copia para que no se tome por referencia y me cague toda la compu
 				for e in dump:
-					if i['Id_URL'] != e['Id_URL']:#no hagas nada si sos el mismo que ayer
+					if i['Id_URL'] != e['Id_URL']:
 						if True:
 							diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
 							if len(diferentKeys) > 1:
