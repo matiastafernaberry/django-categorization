@@ -469,9 +469,10 @@ class NameExtractClass(View):
 											copyI["SourceSimilar"].append(e["Source"])
 										if len(copyI["SharedCountSimilar"]) == 0:
 											copyI["SharedCountSimilar"].append(i["Share_Count"] + e["Share_Count"])#Twitter_Social_Echo
-										else: copyI["SharedCountSimilar"].append(i["Share_Count"])
+										else: copyI["SharedCountSimilar"].append(e["Share_Count"])
 										copyI["ReachSimilar"].append(e["Reach"])
 										#copyI["Percentage"].append(porcentaje)
+			
 										keysUsed.append(e["Id_URL"])
 										keysUsed.append(i["Id_URL"])
 
