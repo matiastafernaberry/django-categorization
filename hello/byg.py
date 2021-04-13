@@ -93,5 +93,5 @@ class ApiGetDocumentsSharedCount7Class(View):
 			'message': 'null'
 		}
 		dataResponse = json.dumps(dataResponse)
-		print(dataResponse)
+		#print(dataResponse)
 		return HttpResponse(dataResponse, content_type='application/json')
