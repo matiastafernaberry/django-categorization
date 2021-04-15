@@ -67,15 +67,21 @@ class ApiGetDocumentsSharedCount7Class(View):
 		dataPost = json.loads(dataPost)
 		print(dataPost['similar'])
 		#dataPostStr = ','.join(map(str, dataPost['similar']))
-		dataPost = tuple(dataPost['similar'])
+		try: dataPost = tuple(dataPost['similar'])
+		except: dataPost = str(dataPost['similar'])
 		#print(dataPostStr)
 		cnx = mysql.connector.connect(user='admin', password='3y3w4tch20204dm1n',
             host='meltwater-dbcluster-instance-1.cffatgb5exir.us-west-2.rds.amazonaws.com',
             database='meltwater')
 		cursor1 = cnx.cursor(buffered=True)
-		cursor1.execute("""SELECT DISTINCT( dsc.`URL`), dsc.`Date`, dsc.`Share_Count`, d.Id_URL 
-		FROM DOCUMENTS_SHAREDCOUNT_TREND_7_DIAS as dsc, DOCUMENTS as d 
-		where d.Id_URL in {} and dsc.url=d.url ORDER By dsc.Date ASC""".format(dataPost))
+		if isinstance(dataPost, tuple):
+			cursor1.execute("""SELECT DISTINCT( dsc.`URL`), dsc.`Date`, dsc.`Share_Count`, d.Id_URL 
+				FROM DOCUMENTS_SHAREDCOUNT_TREND_7_DIAS as dsc, DOCUMENTS as d 
+				where d.Id_URL in {} and dsc.url=d.url ORDER By dsc.Date ASC""".format(dataPost))
+		else:
+			cursor1.execute("""SELECT DISTINCT( dsc.`URL`), dsc.`Date`, dsc.`Share_Count`, d.Id_URL 
+				FROM DOCUMENTS_SHAREDCOUNT_TREND_7_DIAS as dsc, DOCUMENTS as d 
+				where d.Id_URL = {} and dsc.url=d.url ORDER By dsc.Date ASC""".format(dataPost))
 		myresult = cursor1.fetchall()
 		data = DataFrame(myresult,
   			columns=['URL', 'Date', 'Share_Count', 'Id_URL'])
