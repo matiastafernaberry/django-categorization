@@ -101,3 +101,94 @@ class ApiGetDocumentsSharedCount7Class(View):
 		dataResponse = json.dumps(dataResponse)
 		#print(dataResponse)
 		return HttpResponse(dataResponse, content_type='application/json')
+
+
+
+class ApiGetBGDocuments7AllByClient(View):
+	def get(self, request):
+		
+		cnx = mysql.connector.connect(user='admin', password='3y3w4tch20204dm1n',
+            host='meltwater-dbcluster-instance-1.cffatgb5exir.us-west-2.rds.amazonaws.com',
+            database='meltwater')
+		cursor1 = cnx.cursor(buffered=True)
+
+		cursor1.execute("""
+			SELECT `Date`, 
+			Headline, URL, Opening_Text, 
+			Hit_Sentence, Source, Influencer, 
+			Country, Subregion, `Language`, 
+			Reach, Desktop_Reach, Mobile_Reach, 
+			Twitter_Social_Echo, Facebook_Social_Echo, 
+			Reddit_Social_Echo, Social_Echo, AVE, 
+			Sentiment, Key_Phrases, Input_Name, 
+			Keywords, Body, Tipo_informacion, 
+			Pais_campaña, Cliente, Nombre_campaña, 
+			Enlace, Estado, Imagen, Share_Count, Id_URL 
+			FROM meltwater.DOCUMENTS_7_DIAS
+			WHERE Cliente = 'PC' AND Estado = 1 
+			AND date BETWEEN '2021-04-19 16:01:08' AND '2021-04-22 16:01:08'
+			AND Opening_Text like '%Peñarol%'
+			ORDER By EXTRACT(DAY FROM Date), Share_Count DESC
+		""")
+		myresult = cursor1.fetchall()
+		data = DataFrame(myresult,
+  			columns=['Date', 'Headline', 'URL', 'Opening_Text', 
+  			'Hit_Sentence', 'Source', 'Influencer', 'Country', 
+  			'Subregion', 'Language', 'Reach', 'Desktop_Reach', 
+  			'Mobile_Reach', 'Twitter_Social_Echo', 
+  			'Facebook_Social_Echo', 'Reddit_Social_Echo', 
+  			'Social_Echo', 'AVE', 'Sentiment', 'Key_Phrases', 
+  			'Input_Name', 'Keywords', 'Body', 
+  			'Tipo_informacion', 'Pais_campaña', 
+  			'Cliente', 'Nombre_campaña', 'Enlace', 
+  			'Estado', 'Imagen', 'Share_Count', 'Id_URL'])
+		listData = []
+		for row in data.iterrows():
+			d = {}
+			d['Id_URL'] = row[1]["Id_URL"]
+			d['Date'] = row[1]["Date"].strftime('%Y-%m-%d %H:%M:%S')
+			d['Headline'] = row[1]["Headline"]
+			d['Opening_Text'] = row[1]["Opening_Text"]
+			d['Hit_Sentence'] = row[1]["Hit_Sentence"]
+			d['Source'] = row[1]["Source"]
+			d['Influencer'] = row[1]["Influencer"]
+			d['Country'] = row[1]["Country"]
+			d['Subregion'] = row[1]["Subregion"]
+			d['Language'] = row[1]["Language"]
+			d['Reach'] = row[1]["Reach"]
+			d['Desktop_Reach'] = row[1]["Desktop_Reach"]
+			d['Mobile_Reach'] = row[1]["Mobile_Reach"]
+			d['Twitter_Social_Echo'] = row[1]["Twitter_Social_Echo"]
+			d['Facebook_Social_Echo'] = row[1]["Facebook_Social_Echo"]
+			d['Reddit_Social_Echo'] = row[1]["Reddit_Social_Echo"]
+			d['Social_Echo'] = row[1]["Social_Echo"]
+			d['AVE'] = row[1]["AVE"]
+			d['Sentiment'] = row[1]["Sentiment"]
+			d['Key_Phrases'] = row[1]["Key_Phrases"]
+			d['Input_Name'] = row[1]["Input_Name"]
+			d['Keywords'] = row[1]["Keywords"]
+			d['Body'] = row[1]["Body"]
+			d['Tipo_informacion'] = row[1]["Tipo_informacion"]
+			d['Pais_campaña'] = row[1]["Pais_campaña"]
+			d['Cliente'] = row[1]["Cliente"]
+			d['Nombre_campaña'] = row[1]["Nombre_campaña"]
+			d['Enlace'] = row[1]["Enlace"]
+			d['Estado'] = row[1]["Estado"]
+			d['Imagen'] = row[1]["Imagen"]
+			d['Share_Count'] = row[1]["Share_Count"]
+			d['Id_URL'] = row[1]["Id_URL"]
+			d['URL'] = row[1]["URL"]
+			
+			d['Share_Count'] = row[1]["Share_Count"]
+			listData.append(d)
+
+
+		dataResponse = {
+			'status': "success",
+			'code': 200,
+			'data': listData,
+			'message': 'null'
+		}
+		dataResponse = json.dumps(dataResponse)
+		#print(dataResponse)
+		return HttpResponse(dataResponse, content_type='application/json')
