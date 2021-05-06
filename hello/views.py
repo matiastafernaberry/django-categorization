@@ -23,6 +23,7 @@ nltk.data.path.append('./nltk_data/')
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
@@ -588,7 +589,7 @@ class BuzzTrackerClass(View):
 class FileClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
-		mypath = "staticfiles/files/"
+		mypath = "/var/www/html/django-categorization/staticfiles/files/"
 		import glob
 		files = list(filter(os.path.isfile, glob.glob(mypath + "*")))
 		files.sort(key=lambda x: os.path.getmtime(x))
@@ -597,19 +598,19 @@ class FileClass(View):
 		fil = []
 		for i in files:
 			print(i)
-			fil.append(i.replace('staticfiles/files\\', ''))
+			fil.append(i.replace('/var/www/html/django-categorization/staticfiles/files/', ''))
 		return TemplateResponse(request, 'files.html', {'files': fil})
 
 	def post(self, request):
 		if 'myfile' in self.request.FILES:
 			data = self.request.FILES['myfile']
-			fs = FileSystemStorage()
+			fs = FileSystemStorage('/var/www/html/django-categorization/staticfiles/files')
 			print(data)
 			filename = fs.save(str(data), data)
 			uploaded_file_url = fs.url(filename)
 			
 			
-		return TemplateResponse(request, 'files.html', {'files': uploaded_file_url})
+		return redirect('/')
 
 
 class FileDownloadClass(View):

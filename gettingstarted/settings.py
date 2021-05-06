@@ -131,7 +131,8 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR + "/static",
     "/var/www/html/django-categorization/hello/static",
+    "/var/www/html/django-categorization/staticfiles",
     
 ]
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "/staticfiles/files")
 #django_heroku.settings(locals())
