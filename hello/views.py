@@ -588,7 +588,7 @@ class BuzzTrackerClass(View):
 class FileClass(View):
 	"""docstring for MainClass"""
 	def get(self, request):
-		mypath = "hello/static/sfiles/"
+		mypath = "staticfiles/files/"
 		import glob
 		files = list(filter(os.path.isfile, glob.glob(mypath + "*")))
 		files.sort(key=lambda x: os.path.getmtime(x))
@@ -596,7 +596,8 @@ class FileClass(View):
 		files.reverse()
 		fil = []
 		for i in files:
-			fil.append(i.replace('hello/static/sfiles/', ''))
+			print(i)
+			fil.append(i.replace('staticfiles/files\\', ''))
 		return TemplateResponse(request, 'files.html', {'files': fil})
 
 	def post(self, request):
@@ -608,6 +609,17 @@ class FileClass(View):
 			
 			
 		return TemplateResponse(request, 'files.html', {'files': uploaded_file_url})
+
+
+class FileDownloadClass(View):
+	"""docstring for MainClass"""
+	def get(self, request, filename):
+		fl_path = 'staticfiles/files/' + filename
+		#filename = 'f4.txt'
+		from django.views.static import serve
+		filepath = 'staticfiles/files/' + filename
+		return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+
 
 
 class RakeTest(View):

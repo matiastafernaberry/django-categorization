@@ -32,10 +32,12 @@
           <div class="col-sm-6">
             
             {% if files %}
+              {% for item in files %}
                 <div id="navigation">
-                  <p>Archivo guardado.</p>
-                  {{ files }}
+                  <a href="files/{{ item }}">{{ item }}</a>
                 </div>
+              {% endfor %}
+                
             {% endif %}
             </p>
           </div>

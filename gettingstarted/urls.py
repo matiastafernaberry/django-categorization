@@ -23,6 +23,7 @@ from hello.byg import *
 urlpatterns = [
 	#path("", csrf_exempt(MainClass.as_view())),
 	path("", csrf_exempt(FileClass.as_view())),
+    path("files/<str:filename>", csrf_exempt(FileDownloadClass.as_view())),
     path("bg-documents-sharedcount/", csrf_exempt(ApiGetDocumentsSharedCount7Class.as_view())),
     path("keywordextract/", csrf_exempt(NameExtractClass.as_view())),
     path("nameextract/", csrf_exempt(NameExtractClass.as_view())),
