@@ -604,6 +604,7 @@ class FileClass(View):
 		if 'myfile' in self.request.FILES:
 			data = self.request.FILES['myfile']
 			fs = FileSystemStorage()
+			print(data)
 			filename = fs.save(str(data), data)
 			uploaded_file_url = fs.url(filename)
 			
