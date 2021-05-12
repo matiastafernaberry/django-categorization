@@ -500,7 +500,12 @@ class NameExtractClass(View):
 			i['Headline'] = i['Headline'].replace('“', '')
 			i['Headline'] = i['Headline'].replace('”', '')
 			i['Hit_Sentence'] = i['Hit_Sentence'].replace('"', '')
-			
+			try:
+				if i['Twitter']:
+					i['Reacciones'] = i["Share_Count"] + i["Twitter_Social_Echo"] + int(i["Twitter"]) 			
+				else:
+					i['Reacciones'] = i["Share_Count"] + i["Twitter_Social_Echo"] 	
+			except: print(traceback.format_exc())
 			#print(i['Headline'].replace('"', ''))
 			responseDump2.append(responseDump[c])
 			c += 1
@@ -510,7 +515,6 @@ class NameExtractClass(View):
 		#responseDump = json.dumps(responseDump)
 
 		return HttpResponse(responseDump, content_type='application/json')
-
 
 
 class BuzzTrackerJsonClass(View):
@@ -609,7 +613,7 @@ class FileClass(View):
 			uploaded_file_url = fs.url(filename)
 			
 			
-		return TemplateResponse(request, 'files.html', {'files': uploaded_file_url})
+		return redirect('/')
 
 
 class FileDownloadClass(View):
