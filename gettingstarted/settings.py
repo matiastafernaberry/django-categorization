@@ -62,7 +62,8 @@ CORS_ORIGIN_WHITELIST = [
     'https://ec2-52-38-13-82.us-west-2.compute.amazonaws.com',
     'http://127.0.0.1:8000',
     'https://d0cad94259c9.ngrok.io',
-    'http://d0cad94259c9.ngrok.io'
+    'http://d0cad94259c9.ngrok.io',
+    'beenews.hellobee.io'
 ]
 
 ROOT_URLCONF = "gettingstarted.urls"

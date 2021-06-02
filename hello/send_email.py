@@ -24,6 +24,7 @@ from django.views import View
 
 
 class SendEmailClass(View):
+	@csrf_exempt
 	def post(self, request):
 		dataPost = request.body.decode('utf-8')
 		dataPost = json.loads(dataPost)
