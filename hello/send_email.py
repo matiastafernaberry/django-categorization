@@ -42,7 +42,7 @@ class SendEmailClass(View):
 		msg = EmailMessage()
 		msg['Subject'] = ''
 		msg['From'] = "beenews.hellobee.io"
-		msg['To'] = "mtafernaberry@eyewatch.me" #, gcadeiras@eyewatch.me"#,
+		msg['To'] = "ask@hellobee.io, mtafernaberry@eyewatch.me" #, gcadeiras@eyewatch.me"#,
 		msg.add_header('Content-Type','text/html')
 		msg.set_payload(content)
 		# Send the message via our own SMTP server.
