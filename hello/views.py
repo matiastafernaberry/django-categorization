@@ -376,14 +376,14 @@ class NameExtractClass(View):
 				#print(n[0])
 				#print(n[1])
 				#print(' ')
-				if n[1] in ("NNP", "VBZ","NN", "FW"):
+				if n[1] in ("NNP", "NNPS", "VBZ","NN","NNS", "FW"):
 					str_words = str_words.lower()
 					str_words = str_words.strip()
 					if str_words.lower() not in stopwords_list: 
 						stemmer = SnowballStemmer('spanish')
 						if n[1] in ("VBZ", "FW"):
 							str_words = stemmer.stem(str_words)
-						if n[1] == "NNP":
+						if n[1] in ("NNP","NNPS","NN","NNS"):
 							a.append(str_words)
 						ne_tree_without_nnp.append(str_words)
 
@@ -438,14 +438,14 @@ class NameExtractClass(View):
 		#print(dump)
 		#dump = list(dump)
 		#print(type(dump))
-		#print(dump)
+		print('dump')
+		print(dump[0])
 		dataSimilar = dump
 		def check_similar(dump):
 			dataResponse = {}
 			c = 0
 			keysUsed = []
 			for i in dump:
-				c += 1
 				copyI = i.copy()
 				#if c == 40:	break
 				dataResponse[i["Id_URL"]] = copyI#hago una copia para que no se tome por referencia y me cague toda la compu
@@ -455,15 +455,15 @@ class NameExtractClass(View):
 							diferentKeys = list(set(i["keys"]) & set(e["keys"])) #filteredList
 							if len(diferentKeys) > 1:
 								porcentaje = (float(len(diferentKeys)) / len(e['keys'])) * 100
-								#print(' ')
-								#print(porcentaje)
-								#print(i["Id_URL"], e['Id_URL'])
 								if porcentaje > 10:
-									#print(i["Id_URL"], e['Id_URL'])
 									if (e["Id_URL"] not in keysUsed) and (e["Id_URL"] not in copyI["SimilarKeys"]):
-										#print(i["Id_URL"], e['Id_URL'])
-										#copyI["Similar"].append(e.copy())
-										copyI["SimilarKeys"].append(e["Id_URL"])
+										#copyI["SimilarKeys"].append(e["Id_URL"])
+										dump[c]["SimilarKeys"].append(e["Id_URL"])
+										#print('entro')
+										#print(e["Headline"])
+										#print(e["SimilarKeys"])
+										#print(copyI["SimilarKeys"])
+										#print(' ')
 										if i["Source"] not in copyI["SourceSimilar"]:
 											copyI["SourceSimilar"].append(i["Source"])
 										if e["Source"] not in copyI["SourceSimilar"]:
@@ -476,26 +476,41 @@ class NameExtractClass(View):
 
 										keysUsed.append(e["Id_URL"])
 										keysUsed.append(i["Id_URL"])
-
-									
-			return dataResponse
+									else: pass
+										#print('no entro')
+										#print(e["Headline"])
+										#print(e["Id_URL"] not in keysUsed)
+										#print(e["Id_URL"] not in copyI["SimilarKeys"])
+										#print(e["Id_URL"])
+										#print(copyI["SimilarKeys"])
+										#print(' ')
+				c += 1
+				#print(dataResponse[i["Id_URL"]]["SimilarKeys"])
+				#print(dataResponse[i["Id_URL"]]["Id_URL"])
+				#print(i["Headline"])
+				#print(i["Id_URL"])
+				#print(' ')
+	
+			return dump
 		
 		#print(' ')
 		#print(' ')
-		print('dump')
+		#print('dump')
 		getdata = check_similar(dump)
 		#print(' ')
 		#print(' ')
-		print('     getdata     ')
+		#print('     getdata     ')
 		#print(getdata)
-		responseDump = []	
-		for i in getdata:
-			responseDump.append(getdata[i])
+		responseDump = getdata
+		#for i in getdata:
+		#	responseDump.append(getdata[i])
 
 		#print(responseDump)
 		responseDump2 = []
 		c = 0
 		for i in responseDump:
+			#print(' ')
+			#print(i["SimilarKeys"])
 			i['Opening_Text'] = i['Opening_Text'].replace('"', '')
 			i['Headline'] = i['Headline'].replace('"', '')
 			i['Headline'] = i['Headline'].replace('“', '')
