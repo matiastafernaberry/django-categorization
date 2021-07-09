@@ -45,8 +45,32 @@ class SendEmailClass(View):
 
 		msg = EmailMessage()
 		msg['Subject'] = 'Solicitud de demo de BeeNews'
-		# msg['From'] = "beenews.hellobee.io"
+		msg['From'] = "beenews@hellobee.io"
 		msg['To'] = "ask@hellobee.io"
+		msg.add_header('Content-Type','text/html')
+		msg.set_payload(content)
+		# Send the message via our own SMTP server.
+		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server.login("beenews.hellobee@gmail.com", "p1x4bl3s0ft4ws!")
+		server.send_message(msg)
+		server.quit()
+
+		obj = {'data': 'email send ok'}
+		dump = json.dumps(obj)
+		return HttpResponse(dump, content_type='application/json')
+
+
+class SendEmailUnsubscribe(View):
+	@csrf_exempt
+	def post(self, request):
+		dataPost = request.body.decode('utf-8')
+		dataPost = json.loads(dataPost)
+		print(dataPost)
+		content = 'Email: {0}'.format(dataPost['email'])
+		msg = EmailMessage()
+		msg['Subject'] = 'Solicitud de Unsubscribe'
+		msg['From'] = "beenews@hellobee.io"
+		msg['To'] = "beenews@hellobee.io"
 		msg.add_header('Content-Type','text/html')
 		msg.set_payload(content)
 		# Send the message via our own SMTP server.
