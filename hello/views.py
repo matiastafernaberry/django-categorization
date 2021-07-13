@@ -321,7 +321,7 @@ class NameExtractClass(View):
 		#print(' ')
 		body_unicode = request.body.decode('utf-8')
 		body_unicode = json.loads(body_unicode)
-		print(body_unicode[0]['Headline'])
+		#print(body_unicode[0]['Headline'])
 		#print(type(body_unicode))
 		#print(' ')
 		#body = json.loads(body_unicode)
@@ -438,8 +438,8 @@ class NameExtractClass(View):
 		#print(dump)
 		#dump = list(dump)
 		#print(type(dump))
-		print('dump')
-		print(dump[0])
+		#print('dump')
+		#print(dump[0])
 		dataSimilar = dump
 		def check_similar(dump):
 			dataResponse = {}
@@ -465,9 +465,22 @@ class NameExtractClass(View):
 										#print(copyI["SimilarKeys"])
 										#print(' ')
 										if i["Source"] not in copyI["SourceSimilar"]:
-											copyI["SourceSimilar"].append(i["Source"])
+											if i["Source"] == 'social_blogs':
+												if i["Influencer"] != 'Sin informacion':
+													copyI["SourceSimilar"].append(i["Influencer"])
+												else:
+													copyI["SourceSimilar"].append(i["Enlace"])
+											else:
+												copyI["SourceSimilar"].append(i["Source"])
 										if e["Source"] not in copyI["SourceSimilar"]:
-											copyI["SourceSimilar"].append(e["Source"])
+											if e["Source"] == 'social_blogs':
+												if e["Influencer"] != 'Sin informacion':
+													copyI["SourceSimilar"].append(e["Influencer"])
+												else:
+													copyI["SourceSimilar"].append(e["Enlace"])
+											else:
+												copyI["SourceSimilar"].append(e["Source"])
+											
 										if len(copyI["SharedCountSimilar"]) == 0:
 											copyI["SharedCountSimilar"].append( i["Share_Count"] + i["Twitter_Social_Echo"] + e["Share_Count"] + e["Twitter_Social_Echo"] )#Twitter_Social_Echo
 										else: copyI["SharedCountSimilar"].append( e["Share_Count"] + e["Twitter_Social_Echo"] )
