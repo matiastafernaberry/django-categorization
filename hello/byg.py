@@ -11,6 +11,8 @@ import operator
 import RAKE
 import jinja2
 import csv
+import datetime
+from datetime import datetime, timedelta
 
 from nltk import sent_tokenize, ne_chunk, pos_tag, word_tokenize
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -151,6 +153,8 @@ class ApiGetBGDocuments7AllByClient(View):
             host='meltwater-dbcluster-instance-1.cffatgb5exir.us-west-2.rds.amazonaws.com',
             database='meltwater')
 		cursor1 = cnx.cursor(buffered=True)
+		date_hoy = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		date_ayer = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
 
 		cursor1.execute("""
 			SELECT `Date`, 
@@ -165,11 +169,9 @@ class ApiGetBGDocuments7AllByClient(View):
 			Pais_campaña, Cliente, Nombre_campaña, 
 			Enlace, Estado, Imagen, Share_Count, Id_URL 
 			FROM meltwater.DOCUMENTS_7_DIAS
-			WHERE Cliente = 'PC' AND Estado = 1 
-			AND date BETWEEN '2021-04-19 16:01:08' AND '2021-04-22 16:01:08'
-			AND Opening_Text like '%Peñarol%'
-			ORDER By EXTRACT(DAY FROM Date), Share_Count DESC
-		""")
+			WHERE Cliente = '%s' AND Estado = 1 
+			AND date BETWEEN '%s' AND '%s'
+		""" % ('PC',date_ayer, date_hoy))
 		myresult = cursor1.fetchall()
 		data = DataFrame(myresult,
   			columns=['Date', 'Headline', 'URL', 'Opening_Text', 
@@ -218,6 +220,9 @@ class ApiGetBGDocuments7AllByClient(View):
 			d['Share_Count'] = row[1]["Share_Count"]
 			d['Id_URL'] = row[1]["Id_URL"]
 			d['URL'] = row[1]["URL"]
+			if (row[1]["Keywords"] in row[1]["Headline"]) or (row[1]["Keywords"] in row[1]["Hit_Sentence"]) or (row[1]["Keywords"] in row[1]["Opening_Text"]):
+				d["Primaria"] = "true"
+			else: d["Primaria"] = "false"
 			
 			d['Share_Count'] = row[1]["Share_Count"]
 			listData.append(d)
