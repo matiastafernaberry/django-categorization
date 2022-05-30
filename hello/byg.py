@@ -103,6 +103,46 @@ class ApiGetDocumentsSharedCount7Class(View):
 		return HttpResponse(dataResponse, content_type='application/json')
 
 
+class ApiGetDocumentsSharedCountByUrlClass(View):
+	"""docstring for MainClass"""
+	def post(self, request):
+		dataPost = request.body.decode('utf-8')
+		dataPost = json.loads(dataPost)
+		print(dataPost)
+		url = dataPost["url"]
+		print(url)
+		cnx = mysql.connector.connect(user='admin', password='3y3w4tch20204dm1n',
+            host='meltwater-dbcluster-instance-1.cffatgb5exir.us-west-2.rds.amazonaws.com',
+            database='meltwater')
+		cursor1 = cnx.cursor(buffered=True)
+		if url:
+			cursor1.execute("""SELECT DISTINCT( dsc.`URL`), dsc.`Date`, dsc.`Share_Count`, d.Id_URL 
+				FROM DOCUMENTS_SHAREDCOUNT_TREND_7_DIAS as dsc, DOCUMENTS_7_DIAS as d 
+				where d.Id_URL={} and dsc.url=d.url ORDER By dsc.Date ASC""".format(url))
+		myresult = cursor1.fetchall()
+		data = DataFrame(myresult,
+  			columns=['URL', 'Date', 'Share_Count', 'Id_URL'])
+		listData = []
+		for row in data.iterrows():
+			d = {}
+			d['URL'] = row[1]["URL"]
+			d['Date'] = row[1]["Date"].strftime('%Y-%m-%d %H:%M:%S')
+			d['Share_Count'] = row[1]["Share_Count"]
+			listData.append(d)
+		dataResponse = {
+			'status': "success",
+			'code': 200,
+			'data': listData,
+			'message': 'null'
+		}
+		dataResponse = json.dumps(dataResponse)
+		#print(dataResponse)
+		return HttpResponse(dataResponse, content_type='application/json')
+
+
+
+
+
 
 class ApiGetBGDocuments7AllByClient(View):
 	def get(self, request):
